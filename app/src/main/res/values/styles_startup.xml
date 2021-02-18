@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="StartupLoginButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="backgroundTint">@color/green</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="StartupExitButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">16sp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="StartupEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/startup_edit_text_bg</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">#45FFFFFF</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>

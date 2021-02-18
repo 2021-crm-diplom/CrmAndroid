@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_animation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/welcome_text_pager"
+        app:lottie_rawRes="@raw/test_lottie"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/welcome_text_pager"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_above="@id/welcome_text_tabLayout" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/welcome_text_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_buttons"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        app:tabBackground="@drawable/dot_tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="12dp"/>
+
+   <LinearLayout
+       android:id="@+id/layout_buttons"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:paddingBottom="32dp"
+       android:orientation="vertical"
+       android:gravity="bottom"
+       android:layout_alignParentBottom="true">
+
+       <Button
+           android:id="@+id/buttonSignin"
+           android:layout_width="match_parent"
+           android:layout_height="56dp"
+           android:layout_marginStart="32dp"
+           android:layout_marginEnd="32dp"
+           android:text="@string/startup_login"
+           style="@style/StartupLoginButton"/>
+
+       <Button
+           android:id="@+id/buttonExit"
+           android:layout_width="match_parent"
+           android:layout_height="56dp"
+           android:layout_marginStart="32dp"
+           android:layout_marginEnd="32dp"
+           android:text="@string/startup_exit"
+           style="@style/StartupExitButton"/>
+
+   </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "270482858384",
+    "project_id": "crm-iitu",
+    "storage_bucket": "crm-iitu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270482858384:android:288cf5cf5f1a099e781315",
+        "android_client_info": {
+          "package_name": "kz.iitu.diplom.crm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270482858384-4q84ohlkh6alniorm7ltkvic6qfoth02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.iitu.diplom.crm",
+            "certificate_hash": "239c625c9d8353d412a604c7f6fda7048c63aacc"
+          }
+        },
+        {
+          "client_id": "270482858384-7drl6alnuc3mlojar6u1gobo06stf16t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsknCTqS7_lkxVFi7j28teKHGlYQYnzxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270482858384-7drl6alnuc3mlojar6u1gobo06stf16t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="startup_login">Войти</string>
+    <string name="startup_exit">Закрыть приложение</string>
+    <string name="startup_login_title">Вход в аккаунт</string>
+    <string name="startup_enter_phone_number">Номер телефона</string>
+    <string name="startup_enter_password">Пароль</string>
+    <string name="startup_phone_number_hint">7017777777</string>
+    <string name="startup_signin_button_continue">Продолжить</string>
+    <string name="startup_error_empty_field">Номер или пароль не должны быть пустыми!</string>
+    <string name="startup_error_password_length">Пароль не может быть короче 8 символов!</string>
+
+
+    <string-array name="startup_welcome_pager_items">
+        <item>Выполняйте задачи;Приложение поможет навести порядок в делах.</item>
+        <item>Не пропустите важные дела;Получайте уведомления о новых событиях и напоминания о делах.</item>
+        <item>Управляйте бизнесом легко;Закрывайте сделки в одно касание.</item>
+    </string-array>
+</resources>

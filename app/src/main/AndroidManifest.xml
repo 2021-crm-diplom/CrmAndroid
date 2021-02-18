@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".modules.startup.StartupActivity"
+            android:name=".modules.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".modules.main.MainActivity"
+            android:name=".modules.startup.StartupActivity"
             android:screenOrientation="portrait"/>
 
     </application>

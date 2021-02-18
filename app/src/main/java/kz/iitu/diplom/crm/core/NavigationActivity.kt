@@ -5,19 +5,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.core.view.get
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.modules.FirstFragment
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
-import java.lang.Exception
-import kotlin.reflect.KClass
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) : BaseActivity(contentLayout) {
 
@@ -37,6 +31,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         navigationViewHeader = navigationView.getHeaderView(0)
 
         setupNavigation()
+        initHeaderView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,16 +50,20 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     }
 
     private fun selectInitialFragment() {
-        val initialMenuItem = navigationView.menu.getItem(0)
+        val initialMenuItem = navigationView.menu.findItem(R.id.menu_tasks_all)
         selectDrawerItem(initialMenuItem)
     }
 
     private fun selectDrawerItem(menuItem: MenuItem) {
         try {
             val fragment = when(menuItem.itemId) {
-                R.id.first_fragment -> FirstFragment::class.java.newInstance()
-                R.id.second_fragment ->  SecondFragment::class.java.newInstance()
-                R.id.third ->  ThirdFragment::class.java.newInstance()
+                R.id.menu_tasks_all -> FirstFragment::class.java.newInstance()
+                R.id.menu_tasks_waiting -> SecondFragment::class.java.newInstance()
+                R.id.menu_tasks_inwork ->  ThirdFragment::class.java.newInstance()
+                R.id.menu_tasks_completed ->  ThirdFragment::class.java.newInstance()
+                R.id.menu_tasks_paused ->  ThirdFragment::class.java.newInstance()
+                R.id.menu_tasks_rejected ->  ThirdFragment::class.java.newInstance()
+                R.id.menu_settings -> ThirdFragment::class.java.newInstance()
                 else -> throw ClassNotFoundException("Cannot find class for navigation fragment")
             }
             pushFragment(fragment)
@@ -78,5 +77,15 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
     private fun closeDrawer() {
         drawer.closeDrawers()
+    }
+
+    private fun initHeaderView() {
+        val headerInfo = navigationViewHeader.findViewById<ConstraintLayout>(R.id.layout_header_info)
+        headerInfo.setOnClickListener {
+            closeDrawer()
+            pushFragment(FirstFragment())
+            setToolbarTitle(getString(R.string.menu_profile))
+            navigationView.checkedItem?.isChecked = false
+        }
     }
 }

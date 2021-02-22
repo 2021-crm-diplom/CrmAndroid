@@ -3,14 +3,16 @@ package kz.iitu.diplom.crm.core
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.appbar.AppBarLayout
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kz.iitu.diplom.crm.R
 import java.util.*
 
@@ -18,8 +20,12 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
 
     constructor(): this(R.layout.base_activity)
 
+    protected val firestoreDb = Firebase.firestore
+    protected val TAG = "log_" + javaClass.simpleName
     protected lateinit var toolbar: Toolbar
+    private var isLocked = false
     private lateinit var appBar: AppBarLayout
+    private var progressPopup: ProgressPopup? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,30 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
     fun showToolbar() {
         supportActionBar?.show()
         appBar.visibility = View.VISIBLE
+    }
+
+    fun lock(action: () -> Unit) {
+        if(isLocked) return
+        isLocked = true
+        progressPopup = ProgressPopup()
+        progressPopup?.show(supportFragmentManager, "progressPopup")
+        action.invoke()
+    }
+
+    fun unlock() {
+        if(isLocked) {
+            isLocked = false
+            progressPopup?.dismiss()
+            progressPopup = null
+        }
+    }
+
+    fun logi(message: String) {
+        Log.i(TAG, message)
+    }
+
+    fun loge(message: String, exception: Exception) {
+        Log.e(TAG, message, exception)
     }
 
     protected fun pushFragment(fragment: Fragment) {

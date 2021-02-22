@@ -4,6 +4,7 @@
     <string name="drawer_close">Закрыть боковое меню</string>
 
     <string name="menu_profile">Профиль</string>
+    <string name="menu_username">%1$s %2$s</string>
 
     <string name="menu_group_tasks_subtitle">Мои задачи</string>
     <string name="menu_tasks_all">Все задачи</string>

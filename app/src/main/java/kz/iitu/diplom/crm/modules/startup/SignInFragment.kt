@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import br.com.sapereaude.maskedEditText.MaskedEditText
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.BaseFragment
 import kz.iitu.diplom.crm.utils.hideKeyboard
@@ -15,7 +16,7 @@ class SignInFragment : BaseFragment() {
 
     private var delegate: Delegate? = null
 
-    private lateinit var phoneNumberEditText: EditText
+    private lateinit var phoneNumberEditText: MaskedEditText
     private lateinit var passwordEdtText: EditText
 
     override fun onAttach(context: Context) {
@@ -42,19 +43,21 @@ class SignInFragment : BaseFragment() {
 
     private fun validateFields() {
         hideKeyboard()
+        val phoneNumber = phoneNumberEditText.rawText
+        val password = passwordEdtText.text
         when {
-            phoneNumberEditText.text.isNullOrBlank() || passwordEdtText.text.isNullOrBlank() -> {
+            phoneNumber.isNullOrBlank() || password.isNullOrBlank() -> {
                 showSnackbar(requireView(), R.string.startup_error_empty_field)
             }
-            passwordEdtText.text.trim().length < 8 -> {
+            password.trim().length < 8 -> {
                 showSnackbar(requireView(), R.string.startup_error_password_length)
             }
-            else -> delegate?.onButtonContinueClicked()
+            else -> delegate?.onPhoneAndPasswordEntered(phoneNumber.toString(), password.toString())
         }
     }
 
     interface Delegate {
         fun showActionBar()
-        fun onButtonContinueClicked()
+        fun onPhoneAndPasswordEntered(phone: String, password: String)
     }
 }

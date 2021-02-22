@@ -3,6 +3,7 @@ package kz.iitu.diplom.crm.core
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +13,7 @@ import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.modules.FirstFragment
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
+import kz.iitu.diplom.crm.utils.AppPreferences
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) : BaseActivity(contentLayout) {
 
@@ -81,6 +83,9 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
     private fun initHeaderView() {
         val headerInfo = navigationViewHeader.findViewById<ConstraintLayout>(R.id.layout_header_info)
+        headerInfo.findViewById<TextView>(R.id.header_phone_number).text = AppPreferences.phone
+        headerInfo.findViewById<TextView>(R.id.header_username).text =
+            getString(R.string.menu_username, AppPreferences.firstName, AppPreferences.lastName)
         headerInfo.setOnClickListener {
             closeDrawer()
             pushFragment(FirstFragment())

@@ -1,15 +1,22 @@
 package kz.iitu.diplom.crm.modules.startup
 
-import android.content.Intent
 import android.os.Bundle
+import com.google.firebase.firestore.DocumentSnapshot
+import kz.iitu.diplom.crm.R
+import kz.iitu.diplom.crm.core.AlertPopup
 import kz.iitu.diplom.crm.core.BaseActivity
 import kz.iitu.diplom.crm.modules.main.MainActivity
+import kz.iitu.diplom.crm.utils.*
 
-class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment.Delegate {
+class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment.Delegate, ChangePasswordFragment.Delegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pushFragment(WelcomeFragment())
+        if(AppPreferences.isLogged) {
+            MainActivity.start(this)
+        } else {
+            pushFragment(WelcomeFragment())
+        }
     }
 
     override fun hideActionBar() {
@@ -28,9 +35,94 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
         finish()
     }
 
-    override fun onButtonContinueClicked() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+    override fun onPhoneAndPasswordEntered(phone: String, password: String) {
+        lock {
+           firestoreDb.collection("employees")
+               .whereEqualTo("phone", phone)
+               .get()
+               .onSuccess(this) { documents ->
+                   if(documents.isEmpty) {
+                       AlertPopup(
+                           this,
+                           getString(R.string.startup_error_employee_not_found_title),
+                           getString(R.string.startup_error_employee_not_found_msg))
+                           .setPositiveButton(getString(R.string.OK))
+                           .show()
+                       return@onSuccess
+                   }
+                   val doc = documents.documents[0]
+                   saveUserInfo(doc)
+                   logi("Document ${doc.id} => ${doc.data}")
+                   when {
+                       password == doc["password"] && password == getString(R.string.default_password) -> navigateToChangePassword(doc.id)
+                       password == doc["password"] -> goToMain()
+                       else -> showPasswordIncorrect()
+                   }
+               }
+               .onFailure(this) { exception ->
+                   loge("Error getting documents: $exception", exception)
+                   AlertPopup(this, getString(R.string.common_error_title), getString(R.string.common_error_message))
+               }
+       }
+    }
+
+    override fun changePasswordFor(id: String, newPassword: String) {
+        lock {
+            firestoreDb.collection("employees").document(id)
+                .update("password", newPassword)
+                .onUpdateSuccess(this) {
+                    showPasswordChangedSuccessfully()
+                }
+                .onUpdateFailure(this) {
+                    showPasswordChangedFailure()
+                }
+        }
+    }
+
+    private fun navigateToChangePassword(id: String) {
+        AlertPopup(
+            this,
+            getString(R.string.startup_change_password_alert_title),
+            getString(R.string.startup_change_password_alert_msg)
+        ).setPositiveButton(getString(R.string.OK)).show()
+        pushFragmentBackStack(ChangePasswordFragment.create(id))
+    }
+
+    private fun goToMain() {
+        AppPreferences.isLogged = true
+        MainActivity.start(this)
         finish()
+    }
+
+    private fun showPasswordIncorrect() {
+        AlertPopup(
+            this,
+            getString(R.string.startup_error_incorrect_password_title),
+            getString(R.string.startup_error_incorrect_password_msg))
+            .setPositiveButton(getString(R.string.OK)).show()
+    }
+
+    private fun showPasswordChangedSuccessfully() {
+        AlertPopup(
+            this,
+            getString(R.string.startup_change_password_success_title),
+            getString(R.string.startup_change_password_success_msg))
+            .setPositiveButton(getString(R.string.OK)) { goToMain() }
+            .onDismiss { goToMain() }
+        AppPreferences.isLogged = true
+    }
+
+    private fun showPasswordChangedFailure() {
+        AlertPopup(
+            this,
+            getString(R.string.common_error_title),
+            getString(R.string.common_error_message)
+        ).setPositiveButton(getString(R.string.OK)).show()
+    }
+
+    private fun saveUserInfo(document: DocumentSnapshot) {
+        AppPreferences.phone = document["phone"].toString()
+        AppPreferences.firstName = document["firstName"].toString()
+        AppPreferences.lastName = document["lastName"].toString()
     }
 }

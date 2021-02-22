@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CRM Система</string>
+    <string name="default_password">crmiitu123</string>
+
+    <string name="OK">OK</string>
+    <string name="cancel">Отменить</string>
+
+    <string name="common_error_title">Произошла ошибка</string>
+    <string name="common_error_message">Попробуте повторить позднее!</string>
 </resources>

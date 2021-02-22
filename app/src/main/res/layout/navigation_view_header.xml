@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="?attr/colorAccent">
@@ -18,25 +19,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:text="Камилов Дамир"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:fontFamily="sans-serif-black"
             app:layout_constraintBottom_toTopOf="@id/header_phone_number"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/ic_chevron_right"/>
+            app:layout_constraintRight_toLeftOf="@id/ic_chevron_right"
+            tools:text="Камилов Дамир"/>
 
         <TextView
             android:id="@+id/header_phone_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:text="+7(702)111-12-13"
             android:textColor="#E3E3E3"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/ic_chevron_right"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:text="+7(702)111-12-13"/>
 
         <ImageView
             android:id="@+id/ic_chevron_right"

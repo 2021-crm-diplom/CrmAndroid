@@ -2,13 +2,30 @@
 <resources>
     <string name="startup_login">Войти</string>
     <string name="startup_exit">Закрыть приложение</string>
+
     <string name="startup_login_title">Вход в аккаунт</string>
     <string name="startup_enter_phone_number">Номер телефона</string>
     <string name="startup_enter_password">Пароль</string>
     <string name="startup_phone_number_hint">7017777777</string>
     <string name="startup_signin_button_continue">Продолжить</string>
+
+    <string name="startup_change_password_title">Смените пароль</string>
+    <string name="startup_new_password">Новый пароль</string>
+    <string name="startup_new_password_confirm">Подтвердите пароль</string>
+
+    <string name="startup_change_password_alert_title">Добро пожаловать!</string>
+    <string name="startup_change_password_alert_msg">Для продолжения, вам необходимо сменить пароль</string>
+    <string name="startup_change_password_success_title">Пароль изменен</string>
+    <string name="startup_change_password_success_msg">Используйте новый пароль для входа. Вы можете в любой момент изменить свой пароль в настройка</string>
+
     <string name="startup_error_empty_field">Номер или пароль не должны быть пустыми!</string>
     <string name="startup_error_password_length">Пароль не может быть короче 8 символов!</string>
+    <string name="startup_error_empty_password">Пароль не должен быть пустым.</string>
+    <string name="startup_error_password_not_equal">Пароли не совпадают.</string>
+    <string name="startup_error_employee_not_found_title">Номер не найден</string>
+    <string name="startup_error_employee_not_found_msg">Введите верные данные и попробуйте еще раз</string>
+    <string name="startup_error_incorrect_password_title">Пароль неверный</string>
+    <string name="startup_error_incorrect_password_msg">Введите верные данные и попробуйте еще раз</string>
 
 
     <string-array name="startup_welcome_pager_items">

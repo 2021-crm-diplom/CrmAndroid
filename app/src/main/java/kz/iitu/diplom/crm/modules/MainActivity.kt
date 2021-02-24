@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.main
+package kz.iitu.diplom.crm.modules
 
 import android.content.Context
 import android.content.Intent

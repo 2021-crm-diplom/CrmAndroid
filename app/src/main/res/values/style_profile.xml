@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/white_mat_o60</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
+    <style name="ThemeOverlay.TextInputLayout" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
+    <style name="TextInputLayout.Autocomplete" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/white_mat_o60</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="endIconTint">@color/black</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
+    <style name="ThemeOverlay.TextInputLayout.Autocomplete" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+</resources>

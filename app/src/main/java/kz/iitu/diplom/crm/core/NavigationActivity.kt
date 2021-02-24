@@ -13,6 +13,7 @@ import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.modules.FirstFragment
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
+import kz.iitu.diplom.crm.modules.profile.ProfileFragment
 import kz.iitu.diplom.crm.utils.AppPreferences
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) : BaseActivity(contentLayout) {
@@ -70,6 +71,8 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             }
             pushFragment(fragment)
             setToolbarTitle(menuItem.title.toString())
+            navigationView.checkedItem?.isChecked = false
+            navigationView.setCheckedItem(menuItem)
             menuItem.isChecked = true
             closeDrawer()
         } catch (e: Exception) {
@@ -88,7 +91,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             getString(R.string.menu_username, AppPreferences.firstName, AppPreferences.lastName)
         headerInfo.setOnClickListener {
             closeDrawer()
-            pushFragment(FirstFragment())
+            pushFragment(ProfileFragment())
             setToolbarTitle(getString(R.string.menu_profile))
             navigationView.checkedItem?.isChecked = false
         }

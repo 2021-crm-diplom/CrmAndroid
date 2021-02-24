@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.AlertPopup
 import kz.iitu.diplom.crm.core.BaseActivity
-import kz.iitu.diplom.crm.modules.main.MainActivity
+import kz.iitu.diplom.crm.modules.MainActivity
 import kz.iitu.diplom.crm.utils.*
 
 class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment.Delegate, ChangePasswordFragment.Delegate {
@@ -13,7 +13,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(AppPreferences.isLogged) {
-            MainActivity.start(this)
+            goToMain()
         } else {
             pushFragment(WelcomeFragment())
         }

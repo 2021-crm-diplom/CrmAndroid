@@ -23,6 +23,8 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     private lateinit var navigationView: NavigationView
     private lateinit var navigationViewHeader: View
 
+    private var currentMenuItem: NavigationMenuItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,15 +60,40 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     }
 
     private fun selectDrawerItem(menuItem: MenuItem) {
+        if(menuItem.itemId == currentMenuItem?.id) {
+            closeDrawer()
+            return
+        }
         try {
             val fragment = when(menuItem.itemId) {
-                R.id.menu_tasks_all -> FirstFragment::class.java.newInstance()
-                R.id.menu_tasks_waiting -> SecondFragment::class.java.newInstance()
-                R.id.menu_tasks_inwork ->  ThirdFragment::class.java.newInstance()
-                R.id.menu_tasks_completed ->  ThirdFragment::class.java.newInstance()
-                R.id.menu_tasks_paused ->  ThirdFragment::class.java.newInstance()
-                R.id.menu_tasks_rejected ->  ThirdFragment::class.java.newInstance()
-                R.id.menu_settings -> ThirdFragment::class.java.newInstance()
+                R.id.menu_tasks_all -> {
+                    currentMenuItem = NavigationMenuItem.ALL_TASKS
+                    FirstFragment::class.java.newInstance()
+                }
+                R.id.menu_tasks_waiting -> {
+                    currentMenuItem = NavigationMenuItem.TASKS_WAITING
+                    SecondFragment::class.java.newInstance()
+                }
+                R.id.menu_tasks_inwork ->  {
+                    currentMenuItem = NavigationMenuItem.TASKS_INWORK
+                    ThirdFragment::class.java.newInstance()
+                }
+                R.id.menu_tasks_completed ->  {
+                    currentMenuItem = NavigationMenuItem.TASKS_COMPLETED
+                    ThirdFragment::class.java.newInstance()
+                }
+                R.id.menu_tasks_paused ->  {
+                    currentMenuItem = NavigationMenuItem.TASKS_PAUSED
+                    ThirdFragment::class.java.newInstance()
+                }
+                R.id.menu_tasks_rejected ->  {
+                    currentMenuItem = NavigationMenuItem.TASKS_REJECTED
+                    ThirdFragment::class.java.newInstance()
+                }
+                R.id.menu_settings -> {
+                    currentMenuItem = NavigationMenuItem.TASKS_SETTINGS
+                    ThirdFragment::class.java.newInstance()
+                }
                 else -> throw ClassNotFoundException("Cannot find class for navigation fragment")
             }
             pushFragment(fragment)
@@ -90,9 +117,14 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         headerInfo.findViewById<TextView>(R.id.header_username).text =
             getString(R.string.menu_username, AppPreferences.firstName, AppPreferences.lastName)
         headerInfo.setOnClickListener {
+            if(currentMenuItem == NavigationMenuItem.PROFILE) {
+                closeDrawer()
+                return@setOnClickListener
+            }
             closeDrawer()
             pushFragment(ProfileFragment())
             setToolbarTitle(getString(R.string.menu_profile))
+            currentMenuItem = NavigationMenuItem.PROFILE
             navigationView.checkedItem?.isChecked = false
         }
     }

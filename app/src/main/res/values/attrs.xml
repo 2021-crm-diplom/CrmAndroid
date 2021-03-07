@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="ProfileEditTextWidget">
         <attr name="hint" format="string"/>
+        <attr name="editable" format="boolean"/>
     </declare-styleable>
 </resources>

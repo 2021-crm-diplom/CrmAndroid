@@ -7,4 +7,10 @@
     <string name="profile_gender_male">Мужской</string>
     <string name="profile_gender_female">Женский</string>
     <string name="profile_gender_not_selected">Не выбран</string>
+
+    <string name="profile_fields_updated">Данные сохранены!</string>
+    <string name="profile_empty_fields">Поля не должны быть пустыми!</string>
+
+    <string name="profile_sign_out_title">Выход из аккаунта</string>
+    <string name="profile_sign_out_description">Вы уверены что хотите выйти из аккаунта ?</string>
 </resources>

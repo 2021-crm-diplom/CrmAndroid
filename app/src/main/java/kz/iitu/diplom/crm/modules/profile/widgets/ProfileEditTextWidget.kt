@@ -10,13 +10,20 @@ import kz.iitu.diplom.crm.R
 class ProfileEditTextWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttributeSet: Int = 0)
     : FrameLayout(context, attrs, defStyleAttributeSet) {
 
-    val view = inflate(context, R.layout.widget_profile_edit_text, this) as FrameLayout
+    val view = inflate(context, R.layout.profile_edit_text_widget, this) as FrameLayout
     private var inputLayout: TextInputLayout
     private var editText: TextInputEditText
 
     private var hint: String? = null
 
-    private var text: String? = null
+    private var editable: Boolean = true
+        set(value) {
+            field = value
+            editText.isFocusable = value
+            if(!value) editText.keyListener = null
+        }
+
+    var text: String? = null
         get() = editText.text.toString()
         set(value) {
             field = value
@@ -29,6 +36,7 @@ class ProfileEditTextWidget @JvmOverloads constructor(context: Context, attrs: A
         context.theme.obtainStyledAttributes(attrs, R.styleable.ProfileEditTextWidget, 0, 0).apply {
             try {
                 hint = getString(R.styleable.ProfileEditTextWidget_hint)
+                editable = getBoolean(R.styleable.ProfileEditTextWidget_editable, true)
             }
             finally {
                 recycle()

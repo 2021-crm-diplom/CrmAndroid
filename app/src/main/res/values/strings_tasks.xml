@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="task_start_date">Старт %1$s</string>
+    <string name="task_deadline">Дедлайн %1$s</string>
+
+    <string name="task_today">Сегодня</string>
+
+    <string name="task_waiting">В Ожидании</string>
+    <string name="task_inwork">В Работе</string>
+    <string name="task_completed">Завершена</string>
+    <string name="task_paused">Приостановлена</string>
+    <string name="task_rejected">Отклонена</string>
+</resources>

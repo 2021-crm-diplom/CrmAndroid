@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/black</item>
         <item name="colorControlActivated">@color/white</item>
+        <item name="android:windowBackground">@color/white_mat</item>
         <item name="fontFamily">sans-serif</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="materialButtonStyle">@style/Borderless</item>

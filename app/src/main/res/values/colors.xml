@@ -7,6 +7,7 @@
     <color name="white">#FFFFFF</color>
     <color name="white_mat">#F4F5F9</color>
     <color name="white_mat_o60">#CFCECE</color>
+    <color name="silver">#8098A6</color>
     <color name="black">#444444</color>
     <color name="green">#08BF31</color>
     <color name="green_light">#D8F4DE</color>
@@ -14,4 +15,5 @@
     <color name="pink_light">#FDDBDB</color>
     <color name="pink_darker">#F86565</color>
     <color name="blue_dark">#3E425F</color>
+    <color name="gray">#DFDFDF</color>
 </resources>

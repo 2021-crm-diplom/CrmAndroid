@@ -13,6 +13,7 @@ import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.modules.FirstFragment
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
+import kz.iitu.diplom.crm.modules.all_tasks.AllTasksFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
 import kz.iitu.diplom.crm.utils.AppPreferences
 
@@ -68,7 +69,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             val fragment = when(menuItem.itemId) {
                 R.id.menu_tasks_all -> {
                     currentMenuItem = NavigationMenuItem.ALL_TASKS
-                    FirstFragment::class.java.newInstance()
+                    AllTasksFragment::class.java.newInstance()
                 }
                 R.id.menu_tasks_waiting -> {
                     currentMenuItem = NavigationMenuItem.TASKS_WAITING

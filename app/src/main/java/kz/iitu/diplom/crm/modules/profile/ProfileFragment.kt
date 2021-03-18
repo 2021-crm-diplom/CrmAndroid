@@ -63,6 +63,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun saveAndUpdate() {
         if(isFieldsValid()) {
+            //TODO: Save to Firebase
             AppPreferences.lastName = lastNameEditText.text
             AppPreferences.firstName = firstNameEditText.text
         } else {

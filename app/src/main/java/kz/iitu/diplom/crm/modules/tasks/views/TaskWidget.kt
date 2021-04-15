@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.widgets
+package kz.iitu.diplom.crm.modules.tasks.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.models.TaskStatus
+import kz.iitu.diplom.crm.modules.tasks.models.Task
+import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
+import kz.iitu.diplom.crm.modules.tasks.views.TaskStatusWidget
 import kz.iitu.diplom.crm.utils.isToday
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +23,8 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var taskDeadline: TextView
     private var statusWidget: TaskStatusWidget
 
+    private var task: Task? = null
+
     init {
         setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
         radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics)
@@ -30,11 +34,26 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
         statusWidget = view.findViewById(R.id.taskStatus)
     }
 
-    fun setTitle(title: String) {
+    fun setTask(task: Task) {
+        setTitle(task.title)
+        setStartDate(task.startDate)
+        setDeadline(task.deadline)
+        setTaskStatus(task.status)
+        this.task = task
+    }
+
+    fun onStatusClicked(block: (taskId: String, currentStatus: TaskStatus) -> Unit) {
+        statusWidget.setOnClickListener {
+            val taskId = task?.id ?: throw Exception("Task id cannot be null")
+            block.invoke(taskId, statusWidget.status)
+        }
+    }
+
+    private fun setTitle(title: String) {
         titleView.text = title
     }
 
-    fun setStartDate(date: Date) {
+    private fun setStartDate(date: Date) {
         if(date.isToday()) {
             taskStartDate.text = context.getString(R.string.task_start_date, context.getString(R.string.task_today))
         } else {
@@ -42,7 +61,7 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    fun setDeadline(date: Date) {
+    private fun setDeadline(date: Date) {
         if(date.isToday()) {
             taskDeadline.text = context.getString(R.string.task_deadline, context.getString(R.string.task_today))
         } else {
@@ -53,8 +72,8 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    fun setTaskStatus(status: TaskStatus) {
-        statusWidget.setStatus(status)
+    private fun setTaskStatus(status: TaskStatus) {
+        statusWidget.status = status
     }
 
     private fun getFormattedDateString(date: Date): String {

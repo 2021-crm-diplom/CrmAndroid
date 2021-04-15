@@ -1,6 +1,7 @@
 package kz.iitu.diplom.crm.core
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -10,14 +11,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.modules.FirstFragment
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
-import kz.iitu.diplom.crm.modules.all_tasks.AllTasksFragment
+import kz.iitu.diplom.crm.modules.tasks.all_tasks.AllTasksFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
+import kz.iitu.diplom.crm.modules.tasks.StatusChangedCallback
+import kz.iitu.diplom.crm.modules.tasks.TasksLoadedCallback
+import kz.iitu.diplom.crm.modules.tasks.models.Task
+import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
+import kz.iitu.diplom.crm.modules.tasks.views.TaskStatusDialog
 import kz.iitu.diplom.crm.utils.AppPreferences
+import kz.iitu.diplom.crm.utils.onFailure
+import kz.iitu.diplom.crm.utils.onSuccess
+import java.lang.ClassCastException
 
-abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) : BaseActivity(contentLayout) {
+abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) :
+    BaseActivity(contentLayout), AllTasksFragment.Delegate {
 
     private lateinit var drawer: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -128,5 +137,44 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             currentMenuItem = NavigationMenuItem.PROFILE
             navigationView.checkedItem?.isChecked = false
         }
+    }
+
+
+    /**
+     *
+     *
+     *
+     *
+     *   DELEGATES
+     *
+     *
+     *
+     *
+     */
+
+    override fun onStatusClicked(taskId: String, currentStatus: TaskStatus, statusChangedCallback: StatusChangedCallback) {
+        pushDialog(TaskStatusDialog(taskId, currentStatus, statusChangedCallback))
+    }
+
+    override fun loadAllTasks(tasksLoadedCallback: TasksLoadedCallback) {
+        firestoreDb.collection("tasks")
+            .get()
+            .onSuccess(this) { documents ->
+                if(documents.isEmpty) {
+                    tasksLoadedCallback.invoke(null)
+                    return@onSuccess
+                } else {
+                    val tasks = mutableListOf<Task>()
+                    for (doc in documents) {
+                        tasks.add(Task(doc))
+                    }
+                    tasksLoadedCallback.invoke(tasks)
+                }
+
+            }
+            .onFailure(this) {
+                Log.e(TAG, "loadAllTasks", it)
+                AlertPopup(this, getString(R.string.common_error_title), getString(R.string.common_error_message))
+            }
     }
 }

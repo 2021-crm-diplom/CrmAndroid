@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <kz.iitu.diplom.crm.widgets.TaskWidget
+    <kz.iitu.diplom.crm.modules.tasks.views.TaskWidget
         android:id="@+id/task_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

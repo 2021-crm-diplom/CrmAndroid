@@ -9,6 +9,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.firestore.ktx.firestore
@@ -114,6 +115,10 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
 
     protected fun popFragment() {
         supportFragmentManager.popBackStack()
+    }
+
+    protected fun pushDialog(dialog: DialogFragment) {
+        dialog.show(supportFragmentManager, dialog.tag)
     }
 
     private fun setStyle() {

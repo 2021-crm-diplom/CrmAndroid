@@ -56,13 +56,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <kz.iitu.diplom.crm.widgets.TaskStatusWidget
+        <kz.iitu.diplom.crm.modules.tasks.views.TaskStatusWidget
             android:id="@+id/taskStatus"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/silver"
             android:gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

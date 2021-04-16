@@ -5,9 +5,15 @@
 
     <string name="task_today">Сегодня</string>
 
-    <string name="task_waiting">В Ожидании</string>
-    <string name="task_inwork">В Работе</string>
+    <string name="task_waiting">В ожидании</string>
+    <string name="task_inwork">В работе</string>
     <string name="task_completed">Завершена</string>
     <string name="task_paused">Приостановлена</string>
     <string name="task_rejected">Отклонена</string>
+
+    <string name="task_list_empty">Задачи не найдены.</string>
+    <string name="task_list_failed">Не удалось загрузить данные.</string>
+
+    <string name="task_update_status_error_title">Повторите позднее</string>
+    <string name="task_update_status_error_desc">Не удалось обновить статус задачи</string>
 </resources>

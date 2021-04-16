@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <kz.iitu.diplom.crm.modules.tasks.views.TaskWidget
-        android:id="@+id/task_widget"
+    <kz.iitu.diplom.crm.core.SwipeRecycler
+        android:id="@+id/swipe_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:layout_height="match_parent"
+        />
 
 </LinearLayout>

@@ -58,7 +58,7 @@
 
         <kz.iitu.diplom.crm.modules.tasks.views.TaskStatusWidget
             android:id="@+id/taskStatus"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:textColor="@color/silver"

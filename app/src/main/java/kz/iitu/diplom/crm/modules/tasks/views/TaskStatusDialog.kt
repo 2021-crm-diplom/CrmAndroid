@@ -13,9 +13,10 @@ import kz.iitu.diplom.crm.modules.tasks.StatusChangedCallback
 import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
 
 class TaskStatusDialog(
-    private val taskId: String,
+    private val docId: String,
     private val currentStatus: TaskStatus,
-    private val statusChangedCallback: StatusChangedCallback
+    private val statusChangedCallback: StatusChangedCallback,
+    private val position: Int
 ) : BottomSheetDialogFragment() {
 
     private lateinit var layoutStatusActions: LinearLayout
@@ -46,10 +47,10 @@ class TaskStatusDialog(
             view.setTextColor(ContextCompat.getColor(requireContext(), taskStatus.color))
         }
         view.setOnClickListener {
-            statusChangedCallback.invoke(taskId, taskStatus)
+            statusChangedCallback.invoke(docId, taskStatus, position)
             dismiss()
         }
-        view.text = getString(taskStatus.title)
+        view.text = taskStatus.title
         layoutStatusActions.addView(view)
     }
 }

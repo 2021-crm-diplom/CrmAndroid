@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import kz.iitu.diplom.crm.R
+import kz.iitu.diplom.crm.modules.tasks.TaskClickListener
+import kz.iitu.diplom.crm.modules.tasks.TaskStatusClickListener
 import kz.iitu.diplom.crm.modules.tasks.models.Task
 import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
-import kz.iitu.diplom.crm.modules.tasks.views.TaskStatusWidget
 import kz.iitu.diplom.crm.utils.isToday
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,10 +25,13 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var statusWidget: TaskStatusWidget
 
     private var task: Task? = null
+    private var taskClickListener: TaskClickListener? = null
+    private var taskStatusClickListener: TaskStatusClickListener? = null
 
     init {
         setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
-        radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics)
+        radius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7f, context.resources.displayMetrics)
+        cardElevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
         titleView = view.findViewById(R.id.taskTitle)
         taskStartDate = view.findViewById(R.id.taskStartDate)
         taskDeadline = view.findViewById(R.id.taskDeadline)
@@ -42,11 +46,24 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.task = task
     }
 
-    fun onStatusClicked(block: (taskId: String, currentStatus: TaskStatus) -> Unit) {
-        statusWidget.setOnClickListener {
-            val taskId = task?.id ?: throw Exception("Task id cannot be null")
-            block.invoke(taskId, statusWidget.status)
+    fun setTaskClickListener(listener: TaskClickListener) {
+        this.taskClickListener = listener
+        this.setOnClickListener {
+            val task = this.task ?: throw Exception("Task cannot be null")
+            taskClickListener?.onClick(task)
         }
+    }
+
+    fun setStatusClickListener(listener: TaskStatusClickListener) {
+        taskStatusClickListener = listener
+        statusWidget.setOnClickListener {
+            val docId = task?.documentId ?: throw Exception("Document id cannot be null")
+            taskStatusClickListener?.onClick(docId, statusWidget.status)
+        }
+    }
+
+    fun setTaskStatus(status: TaskStatus) {
+        statusWidget.status = status
     }
 
     private fun setTitle(title: String) {
@@ -70,10 +87,6 @@ class TaskWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet
         if(date.before(Date())) {
             taskDeadline.setTextColor(ContextCompat.getColor(context, R.color.red))
         }
-    }
-
-    private fun setTaskStatus(status: TaskStatus) {
-        statusWidget.status = status
     }
 
     private fun getFormattedDateString(date: Date): String {

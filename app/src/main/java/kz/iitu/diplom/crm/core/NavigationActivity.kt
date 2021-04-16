@@ -16,14 +16,11 @@ import kz.iitu.diplom.crm.modules.ThirdFragment
 import kz.iitu.diplom.crm.modules.tasks.all_tasks.AllTasksFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
 import kz.iitu.diplom.crm.modules.tasks.StatusChangedCallback
-import kz.iitu.diplom.crm.modules.tasks.TasksLoadedCallback
-import kz.iitu.diplom.crm.modules.tasks.models.Task
 import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
 import kz.iitu.diplom.crm.modules.tasks.views.TaskStatusDialog
 import kz.iitu.diplom.crm.utils.AppPreferences
 import kz.iitu.diplom.crm.utils.onFailure
 import kz.iitu.diplom.crm.utils.onSuccess
-import java.lang.ClassCastException
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) :
     BaseActivity(contentLayout), AllTasksFragment.Delegate {
@@ -152,29 +149,37 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
      *
      */
 
-    override fun onStatusClicked(taskId: String, currentStatus: TaskStatus, statusChangedCallback: StatusChangedCallback) {
-        pushDialog(TaskStatusDialog(taskId, currentStatus, statusChangedCallback))
+    /**
+     *
+     * All Tasks Fragment
+     *
+     */
+    override fun onStatusClicked(docId: String, currentStatus: TaskStatus, statusChangedCallback: StatusChangedCallback, position: Int) {
+        pushDialog(TaskStatusDialog(docId, currentStatus,  statusChangedCallback, position))
     }
 
-    override fun loadAllTasks(tasksLoadedCallback: TasksLoadedCallback) {
+    override fun onStatusChanged(id: String, newStatus: TaskStatus) {
+        firestoreDb.collection("tasks")
+            .document(id)
+            .update("status", newStatus.title)
+            .addOnFailureListener {
+                loge(TAG, it)
+                AlertPopup(this,
+                    getString(R.string.task_update_status_error_title),
+                    getString(R.string.task_update_status_error_desc)
+                ).show()
+            }
+    }
+
+    override fun loadAllTasks(callback: AsyncCallback) {
         firestoreDb.collection("tasks")
             .get()
-            .onSuccess(this) { documents ->
-                if(documents.isEmpty) {
-                    tasksLoadedCallback.invoke(null)
-                    return@onSuccess
-                } else {
-                    val tasks = mutableListOf<Task>()
-                    for (doc in documents) {
-                        tasks.add(Task(doc))
-                    }
-                    tasksLoadedCallback.invoke(tasks)
-                }
-
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
             }
-            .onFailure(this) {
-                Log.e(TAG, "loadAllTasks", it)
-                AlertPopup(this, getString(R.string.common_error_title), getString(R.string.common_error_message))
+            .onFailure(this) { e ->
+                Log.e(TAG, "loadAllTasks", e)
+                callback.onFailure(e)
             }
     }
 }

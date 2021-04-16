@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="obj"
+            type="kz.iitu.diplom.crm.modules.tasks.views.TaskObj" />
+        <variable
+            name="act"
+            type="kz.iitu.diplom.crm.modules.tasks.TaskAct" />
+    </data>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <kz.iitu.diplom.crm.modules.tasks.views.TaskWidget
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:task="@{obj.task}"
+            app:onStatusClicked="@{(docId, status) -> act.onTaskStatusClicked(docId, status, obj.position)}"
+            app:onTaskClicked="@{() -> act.onTaskClicked()}"
+            />
+
+    </FrameLayout>
+
+</layout>

@@ -14,7 +14,7 @@ class TaskStatusWidget @JvmOverloads constructor(context: Context, attrs: Attrib
     var status: TaskStatus = TaskStatus.WAITING
         set(value) {
             field = value
-            text = context.getString(status.title)
+            text = status.title
             setTextColor(ContextCompat.getColor(context, status.color))
         }
 

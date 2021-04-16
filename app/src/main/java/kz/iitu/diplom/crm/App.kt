@@ -6,10 +6,6 @@ import kz.iitu.diplom.crm.utils.AppPreferences
 
 class App : Application() {
 
-    companion object {
-        fun string(id: Int) = App().getString(id)
-    }
-
     var context: Context? = null
         private set
 

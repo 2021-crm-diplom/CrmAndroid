@@ -10,4 +10,6 @@
 
     <string name="common_error_title">Произошла ошибка</string>
     <string name="common_error_message">Попробуте повторить позднее!</string>
+
+    <string name="tasks">Задачи</string>
 </resources>

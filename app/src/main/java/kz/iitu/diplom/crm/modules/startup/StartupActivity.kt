@@ -1,6 +1,7 @@
 package kz.iitu.diplom.crm.modules.startup
 
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.AlertPopup
@@ -9,6 +10,10 @@ import kz.iitu.diplom.crm.modules.MainActivity
 import kz.iitu.diplom.crm.utils.*
 
 class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment.Delegate, ChangePasswordFragment.Delegate {
+
+    companion object {
+        private const val EMPLOYEES = "employees"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +42,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
 
     override fun onPhoneAndPasswordEntered(phone: String, password: String) {
         lock {
-           firestoreDb.collection("employees")
+           firestoreDb.collection(EMPLOYEES)
                .whereEqualTo("phone", phone)
                .get()
                .onSuccess(this) { documents ->
@@ -52,7 +57,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
                    }
                    val doc = documents.documents[0]
                    saveUserInfo(doc)
-                   logi("Document ${doc.id} => ${doc.data}")
+                   Log.i("StartupActivity", "Document ${doc.id} => ${doc.data}")
                    when {
                        password == doc["password"] && password == getString(R.string.default_password) -> navigateToChangePassword(doc.id)
                        password == doc["password"] -> goToMain()
@@ -60,7 +65,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
                    }
                }
                .onFailure(this) { exception ->
-                   loge("Error getting documents: $exception", exception)
+                   Log.e("StartupActivity", "Error getting documents: $exception", exception)
                    AlertPopup(this, getString(R.string.common_error_title), getString(R.string.common_error_message))
                }
        }
@@ -68,7 +73,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
 
     override fun changePasswordFor(id: String, newPassword: String) {
         lock {
-            firestoreDb.collection("employees").document(id)
+            firestoreDb.collection(EMPLOYEES).document(id)
                 .update("password", newPassword)
                 .onUpdateSuccess(this) {
                     showPasswordChangedSuccessfully()

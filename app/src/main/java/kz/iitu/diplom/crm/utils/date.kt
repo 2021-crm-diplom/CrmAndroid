@@ -17,3 +17,8 @@ fun Date.format(): String {
     val format = SimpleDateFormat("dd.MM.yyyy,HH:mm", Locale.getDefault())
     return format.format(this)
 }
+
+fun Date.formatLocal(): String {
+    val format = SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault())
+    return format.format(this)
+}

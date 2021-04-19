@@ -4,10 +4,10 @@
     <data>
         <variable
             name="obj"
-            type="kz.iitu.diplom.crm.modules.tasks.views.TaskObj" />
+            type="kz.iitu.diplom.crm.modules.trades.views.TradeObj" />
         <variable
             name="act"
-            type="kz.iitu.diplom.crm.modules.tasks.TaskAct" />
+            type="kz.iitu.diplom.crm.modules.trades.TradeAct" />
     </data>
 
     <FrameLayout
@@ -15,13 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <kz.iitu.diplom.crm.modules.tasks.views.TaskWidget
+        <kz.iitu.diplom.crm.modules.trades.views.TradeWidget
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:task="@{obj.task}"
-            app:onStatusClicked="@{(docId, status) -> act.onTaskStatusClicked(docId, status, obj.position)}"
-            app:onTaskClicked="@{() -> act.onTaskClicked()}"
+            app:trades="@{obj.trade}"
+            app:onStatusClicked="@{(docId, status) -> act.onTradeStatusClicked(docId, status, obj.position)}"
+            app:onTradeClicked="@{(trade) -> act.onTradeClicked(trade)}"
             />
 
     </FrameLayout>

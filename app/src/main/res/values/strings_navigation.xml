@@ -6,13 +6,13 @@
     <string name="menu_profile">Профиль</string>
     <string name="menu_username">%1$s %2$s</string>
 
-    <string name="menu_group_tasks_subtitle">Мои задачи</string>
-    <string name="menu_tasks_all">Все задачи</string>
-    <string name="menu_tasks_waiting">В ожидании</string>
-    <string name="menu_tasks_inwork">В работе</string>
-    <string name="menu_tasks_completed">Завершенные</string>
-    <string name="menu_tasks_paused">Приостановленные</string>
-    <string name="menu_tasks_rejected">Отклоненные</string>
+    <string name="menu_group_trade_subtitle">Мои сделки</string>
+    <string name="menu_trades_all">Все сделки</string>
+    <string name="menu_trades_waiting">В ожидании</string>
+    <string name="menu_trades_inwork">В работе</string>
+    <string name="menu_trades_completed">Завершенные</string>
+    <string name="menu_trades_paused">Приостановленные</string>
+    <string name="menu_trades_rejected">Отклоненные</string>
 
     <string name="menu_settings">Настройки</string>
 </resources>

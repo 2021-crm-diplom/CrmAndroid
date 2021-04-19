@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/menu_group_tasks_subtitle">
+    <item android:title="@string/menu_group_trade_subtitle">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menu_tasks_all"
-                    android:title="@string/menu_tasks_all"/>
+                    android:id="@+id/menu_trades_all"
+                    android:title="@string/menu_trades_all"/>
                 <item
-                    android:id="@+id/menu_tasks_waiting"
-                    android:title="@string/menu_tasks_waiting"/>
+                    android:id="@+id/menu_trades_waiting"
+                    android:title="@string/menu_trades_waiting"/>
                 <item
-                    android:id="@+id/menu_tasks_inwork"
-                    android:title="@string/menu_tasks_inwork"/>
+                    android:id="@+id/menu_trades_inwork"
+                    android:title="@string/menu_trades_inwork"/>
                 <item
-                    android:id="@+id/menu_tasks_completed"
-                    android:title="@string/menu_tasks_completed"/>
+                    android:id="@+id/menu_trades_completed"
+                    android:title="@string/menu_trades_completed"/>
                 <item
-                    android:id="@+id/menu_tasks_paused"
-                    android:title="@string/menu_tasks_paused"/>
+                    android:id="@+id/menu_trades_paused"
+                    android:title="@string/menu_trades_paused"/>
                 <item
-                    android:id="@+id/menu_tasks_rejected"
-                    android:title="@string/menu_tasks_rejected"/>
+                    android:id="@+id/menu_trades_rejected"
+                    android:title="@string/menu_trades_rejected"/>
             </group>
         </menu>
     </item>

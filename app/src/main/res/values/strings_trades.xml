@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trade_start_date">Старт %1$s</string>
+    <string name="trade_deadline">Дедлайн %1$s</string>
+
+    <string name="trade_today">Сегодня</string>
+
+    <string name="trade_waiting">В ожидании</string>
+    <string name="trade_inwork">В работе</string>
+    <string name="trade_completed">Завершена</string>
+    <string name="trade_paused">Приостановлена</string>
+    <string name="trade_rejected">Отклонена</string>
+
+    <string name="trade_list_empty">Сделки не найдены.</string>
+    <string name="trade_list_failed">Не удалось загрузить данные.</string>
+
+    <string name="trade_update_status_error_title">Повторите позднее</string>
+    <string name="trade_update_status_error_desc">Не удалось обновить статус сделки</string>
+
+    <string name="trade_tasks_empty">Задач нет</string>
+</resources>

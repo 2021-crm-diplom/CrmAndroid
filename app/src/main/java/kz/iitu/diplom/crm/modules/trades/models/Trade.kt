@@ -1,13 +1,14 @@
-package kz.iitu.diplom.crm.modules.tasks.models
+package kz.iitu.diplom.crm.modules.trades.models
 
 import android.os.Parcelable
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import kz.iitu.diplom.crm.utils.parse
 import java.util.*
 
 @Parcelize
-data class Task (
+data class Trade (
     val documentId: String,
     val id: String,
     val title: String,
@@ -15,7 +16,8 @@ data class Task (
     val deadline: Date,
     val description: String?,
     val employee: String?,
-    val status: TaskStatus
+    val status: TradeStatus,
+    val tasks: @RawValue List<Task> = listOf()
 ) : Parcelable {
 
     constructor(document: QueryDocumentSnapshot) : this(
@@ -26,6 +28,6 @@ data class Task (
         deadline = document.getString("deadline")?.parse() ?: throw Exception("deadline cannot be null"),
         description = document.getString("description"),
         employee = document.getString("employee"),
-        status = TaskStatus.fromStringValue(document.getString("status")) ?: throw Exception("status cannot be null")
+        status = TradeStatus.fromStringValue(document.getString("status")) ?: throw Exception("status cannot be null")
     )
 }

@@ -1,8 +1,8 @@
-package kz.iitu.diplom.crm.modules.tasks.models
+package kz.iitu.diplom.crm.modules.trades.models
 
 import kz.iitu.diplom.crm.R
 
-enum class TaskStatus(val title: String, val color: Int) {
+enum class TradeStatus(val title: String, val color: Int) {
     WAITING("В ожидании", R.color.silver),
     IN_WORK("В работе", R.color.silver),
     COMPLETED("Завершена", R.color.green),

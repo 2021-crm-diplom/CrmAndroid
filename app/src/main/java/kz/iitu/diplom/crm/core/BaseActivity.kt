@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -22,7 +23,6 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
     constructor(): this(R.layout.base_activity)
 
     protected val firestoreDb = Firebase.firestore
-    protected val TAG = "log_" + javaClass.simpleName
     protected lateinit var toolbar: Toolbar
     private var isLocked = false
     private lateinit var appBar: AppBarLayout
@@ -36,20 +36,6 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
         toolbar = findViewById(R.id.base_toolbar)
         appBar = findViewById(R.id.app_bar)
         setSupportActionBar(toolbar)
-
-        supportFragmentManager.addOnBackStackChangedListener {
-            if(supportFragmentManager.backStackEntryCount >= 1) {
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
@@ -88,14 +74,6 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
         }
     }
 
-    fun logi(message: String) {
-        Log.i(TAG, message)
-    }
-
-    fun loge(message: String, exception: Exception) {
-        Log.e(TAG, message, exception)
-    }
-
     protected fun pushFragment(fragment: Fragment) {
         val name = UUID.randomUUID().toString()
         supportFragmentManager
@@ -117,9 +95,19 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
         supportFragmentManager.popBackStack()
     }
 
-    protected fun pushDialog(dialog: DialogFragment) {
-        dialog.show(supportFragmentManager, dialog.tag)
+    protected fun pushDialog(dialog: DialogFragment, fullScreen: Boolean = false) {
+        if(fullScreen) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            transaction
+                .add(android.R.id.content, dialog)
+                .addToBackStack(null)
+                .commit()
+        } else {
+            dialog.show(supportFragmentManager, dialog.tag)
+        }
     }
+
 
     private fun setStyle() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

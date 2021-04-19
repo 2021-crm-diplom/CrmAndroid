@@ -13,17 +13,27 @@ import com.google.android.material.navigation.NavigationView
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
-import kz.iitu.diplom.crm.modules.tasks.all_tasks.AllTasksFragment
+import kz.iitu.diplom.crm.modules.trades.all_trades.AllTradesFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
-import kz.iitu.diplom.crm.modules.tasks.StatusChangedCallback
-import kz.iitu.diplom.crm.modules.tasks.models.TaskStatus
-import kz.iitu.diplom.crm.modules.tasks.views.TaskStatusDialog
+import kz.iitu.diplom.crm.modules.trades.StatusChangedCallback
+import kz.iitu.diplom.crm.modules.trades.TradeDetailFragment
+import kz.iitu.diplom.crm.modules.trades.models.Task
+import kz.iitu.diplom.crm.modules.trades.models.Trade
+import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
+import kz.iitu.diplom.crm.modules.trades.views.TradeStatusDialog
 import kz.iitu.diplom.crm.utils.AppPreferences
 import kz.iitu.diplom.crm.utils.onFailure
 import kz.iitu.diplom.crm.utils.onSuccess
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) :
-    BaseActivity(contentLayout), AllTasksFragment.Delegate {
+    BaseActivity(contentLayout), AllTradesFragment.Delegate, TradeDetailFragment.Delegate {
+
+    companion object {
+        private const val TRADES = "trades"
+        private const val EMPLOYEES = "employees"
+        private const val TASKS = "tasks"
+        private const val TAG = "NavigationActivity"
+    }
 
     private lateinit var drawer: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -42,15 +52,26 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         navigationView = findViewById(R.id.navigation_view)
         navigationViewHeader = navigationView.getHeaderView(0)
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            if(supportFragmentManager.backStackEntryCount >= 1) {
+                drawerToggle.isDrawerIndicatorEnabled = false
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                lockDrawer()
+            } else {
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                drawerToggle.isDrawerIndicatorEnabled = true
+                unlockDrawer()
+            }
+        }
+
+        drawerToggle.setToolbarNavigationClickListener {
+            if(supportFragmentManager.backStackEntryCount >= 1) {
+                popFragment()
+            }
+        }
+
         setupNavigation()
         initHeaderView()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun setupNavigation() {
@@ -62,7 +83,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     }
 
     private fun selectInitialFragment() {
-        val initialMenuItem = navigationView.menu.findItem(R.id.menu_tasks_all)
+        val initialMenuItem = navigationView.menu.findItem(R.id.menu_trades_all)
         selectDrawerItem(initialMenuItem)
     }
 
@@ -73,32 +94,32 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         }
         try {
             val fragment = when(menuItem.itemId) {
-                R.id.menu_tasks_all -> {
-                    currentMenuItem = NavigationMenuItem.ALL_TASKS
-                    AllTasksFragment::class.java.newInstance()
+                R.id.menu_trades_all -> {
+                    currentMenuItem = NavigationMenuItem.ALL_TRADES
+                    AllTradesFragment::class.java.newInstance()
                 }
-                R.id.menu_tasks_waiting -> {
-                    currentMenuItem = NavigationMenuItem.TASKS_WAITING
+                R.id.menu_trades_waiting -> {
+                    currentMenuItem = NavigationMenuItem.TRADES_WAITING
                     SecondFragment::class.java.newInstance()
                 }
-                R.id.menu_tasks_inwork ->  {
-                    currentMenuItem = NavigationMenuItem.TASKS_INWORK
+                R.id.menu_trades_inwork ->  {
+                    currentMenuItem = NavigationMenuItem.TRADES_INWORK
                     ThirdFragment::class.java.newInstance()
                 }
-                R.id.menu_tasks_completed ->  {
-                    currentMenuItem = NavigationMenuItem.TASKS_COMPLETED
+                R.id.menu_trades_completed ->  {
+                    currentMenuItem = NavigationMenuItem.TRADES_COMPLETED
                     ThirdFragment::class.java.newInstance()
                 }
-                R.id.menu_tasks_paused ->  {
-                    currentMenuItem = NavigationMenuItem.TASKS_PAUSED
+                R.id.menu_trades_paused ->  {
+                    currentMenuItem = NavigationMenuItem.TRADES_PAUSED
                     ThirdFragment::class.java.newInstance()
                 }
-                R.id.menu_tasks_rejected ->  {
-                    currentMenuItem = NavigationMenuItem.TASKS_REJECTED
+                R.id.menu_trades_rejected ->  {
+                    currentMenuItem = NavigationMenuItem.TRADES_REJECTED
                     ThirdFragment::class.java.newInstance()
                 }
                 R.id.menu_settings -> {
-                    currentMenuItem = NavigationMenuItem.TASKS_SETTINGS
+                    currentMenuItem = NavigationMenuItem.SETTINGS
                     ThirdFragment::class.java.newInstance()
                 }
                 else -> throw ClassNotFoundException("Cannot find class for navigation fragment")
@@ -116,6 +137,14 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
     private fun closeDrawer() {
         drawer.closeDrawers()
+    }
+
+    private fun lockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    private fun unlockDrawer() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     private fun initHeaderView() {
@@ -151,35 +180,66 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
     /**
      *
-     * All Tasks Fragment
+     * All Trades Fragment
      *
      */
-    override fun onStatusClicked(docId: String, currentStatus: TaskStatus, statusChangedCallback: StatusChangedCallback, position: Int) {
-        pushDialog(TaskStatusDialog(docId, currentStatus,  statusChangedCallback, position))
+    override fun onStatusClicked(docId: String, currentStatus: TradeStatus, statusChangedCallback: StatusChangedCallback, position: Int) {
+        pushDialog(TradeStatusDialog(docId, currentStatus,  statusChangedCallback, position))
     }
 
-    override fun onStatusChanged(id: String, newStatus: TaskStatus) {
-        firestoreDb.collection("tasks")
+    override fun onStatusChanged(id: String, newStatus: TradeStatus) {
+        firestoreDb.collection(TRADES)
             .document(id)
             .update("status", newStatus.title)
             .addOnFailureListener {
-                loge(TAG, it)
+                Log.i(TAG, "onStatusChanged Error update status", it)
                 AlertPopup(this,
-                    getString(R.string.task_update_status_error_title),
-                    getString(R.string.task_update_status_error_desc)
+                    getString(R.string.trade_update_status_error_title),
+                    getString(R.string.trade_update_status_error_desc)
                 ).show()
             }
     }
 
-    override fun loadAllTasks(callback: AsyncCallback) {
-        firestoreDb.collection("tasks")
+    override fun onTradeClicked(trade: Trade) {
+        pushFragmentBackStack(TradeDetailFragment.create(trade))
+    }
+
+    override fun loadAllTrades(callback: AsyncCallback) {
+        firestoreDb.collection(TRADES)
             .get()
             .onSuccess(this) { result ->
                 callback.onSuccess(result)
             }
             .onFailure(this) { e ->
-                Log.e(TAG, "loadAllTasks", e)
+                Log.e(TAG, "loadAllTrades", e)
                 callback.onFailure(e)
             }
+    }
+
+    override fun loadTasksForTrade(tradeId: String, callback: AsyncCallback) {
+        firestoreDb.collection(TASKS)
+            .whereEqualTo("tradeId", tradeId)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                Log.e(TAG, "loadTasksForTrade Failed to load tasks for tradeId $tradeId", e)
+                callback.onFailure(e)
+            }
+    }
+
+    override fun updateTasksCompleted(updatedTasks: List<Task>) {
+        updatedTasks.forEach { task ->
+            firestoreDb.collection(TASKS)
+                .document(task.docId)
+                .update("isCompleted", task.isCompleted)
+                .addOnSuccessListener {
+                    Log.i(TAG, "updateTasksCompleted success")
+                }
+                .addOnFailureListener {
+                    Log.e(TAG, "updateTasksCompleted failure", it)
+                }
+        }
     }
 }

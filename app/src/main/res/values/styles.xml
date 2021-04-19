@@ -31,4 +31,8 @@
         <item name="colorPrimary">@color/green</item>
     </style>
 
+    <style name="FullScreen_Dialog">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>

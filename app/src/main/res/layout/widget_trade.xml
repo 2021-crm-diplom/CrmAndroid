@@ -14,33 +14,33 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/taskTitle"
+            android:id="@+id/tradeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TaskTitleTextAppearance"
+            android:textAppearance="@style/TradeTitleTextAppearance"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Начать работу"/>
 
         <TextView
-            android:id="@+id/taskStartDate"
+            android:id="@+id/tradeStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/silver"
             android:textSize="14sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintTop_toBottomOf="@id/taskTitle"
+            app:layout_constraintTop_toBottomOf="@id/tradeTitle"
             tools:text="Старт 7 марта"/>
 
         <TextView
-            android:id="@+id/taskDeadline"
+            android:id="@+id/tradeDeadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/silver"
             android:textSize="14sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintTop_toBottomOf="@id/taskStartDate"
+            app:layout_constraintTop_toBottomOf="@id/tradeStartDate"
             tools:text="Дедлайн 7 марта"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -52,12 +52,12 @@
         android:background="@color/gray"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutTaskStatus"
+        android:id="@+id/layoutTradeStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <kz.iitu.diplom.crm.modules.tasks.views.TaskStatusWidget
-            android:id="@+id/taskStatus"
+        <kz.iitu.diplom.crm.modules.trades.views.TradeStatusWidget
+            android:id="@+id/tradeStatus"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
@@ -70,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/taskEmployeeAvatar"
+            android:id="@+id/tradeEmployeeAvatar"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:src="@drawable/profile_avatar"

@@ -1,98 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+            <LinearLayout
+                android:id="@+id/layout_trade"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_details_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="7dp"
+                    app:cardElevation="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/trade_detail_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TradeDetailTitleTextAppearance"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Сделка" />
+
+                        <TextView
+                            android:id="@+id/trade_detail_description"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:textAppearance="@style/TradeDetailDescTextAppearance"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/trade_detail_title"
+                            tools:text="Описание сделки" />
+
+                        <TextView
+                            android:id="@+id/trade_detail_deadline"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/silver"
+                            app:drawableStartCompat="@drawable/ic_calendar"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/trade_detail_description"
+                            tools:text="25 апреля в 14:00" />
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/gray_light"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/trade_detail_deadline" />
+
+                        <TextView
+                            android:id="@+id/trade_detail_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="8dp"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/divider"
+                            tools:text="В работе" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <kz.iitu.diplom.crm.modules.trades.views.TasksWidget
+                    android:id="@+id/tasks_widget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp" />
+            </LinearLayout>
+    </ScrollView>
+
+    <kz.iitu.diplom.crm.modules.trades.views.CommentWidget
+        android:id="@+id/comment_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="bottom" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_details_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardElevation="1dp"
-            app:cardCornerRadius="7dp">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
-                <TextView
-                    android:id="@+id/trade_detail_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:textAppearance="@style/TradeDetailTitleTextAppearance"
-                    tools:text="Сделка"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/ic_expand"
+        app:fabSize="mini"
+        app:layout_anchor="@id/comment_widget"
+        app:layout_anchorGravity="top|right"/>
 
-                <TextView
-                    android:id="@+id/trade_detail_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textAppearance="@style/TradeDetailDescTextAppearance"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/trade_detail_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Описание сделки"/>
-
-                <TextView
-                    android:id="@+id/trade_detail_deadline"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="8dp"
-                    android:textColor="@color/silver"
-                    app:layout_constraintTop_toBottomOf="@id/trade_detail_description"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:drawableStartCompat="@drawable/ic_calendar"
-                    tools:text="25 апреля в 14:00"/>
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/gray"
-                    app:layout_constraintTop_toBottomOf="@id/trade_detail_deadline"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/trade_detail_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="В работе"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <kz.iitu.diplom.crm.modules.trades.views.TasksWidget
-            android:id="@+id/tasks_widget"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

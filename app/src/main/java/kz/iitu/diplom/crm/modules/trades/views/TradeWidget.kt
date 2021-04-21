@@ -18,7 +18,7 @@ import java.util.*
 class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttributeSet: Int = 0)
     : CardView(context, attrs, defStyleAttributeSet) {
 
-    private val view = inflate(context, R.layout.widget_trade, this)
+    private val view = inflate(context, R.layout.trade_widget, this)
     private var titleView: TextView
     private var tradeStartDate: TextView
     private var tradeDeadline: TextView
@@ -64,6 +64,7 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun setTradeStatus(status: TradeStatus) {
         statusWidget.status = status
+        this.trade = trade?.copy(status = status)
     }
 
     private fun setTitle(title: String) {

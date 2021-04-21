@@ -11,11 +11,12 @@
     <color name="silver">#696D82</color>
     <color name="gold">#F7B13F</color>
     <color name="black">#1C1C1C</color>
-    <color name="green">#08BF31</color>
+    <color name="green">#09BE32</color><!--2BB673: green color from completed icon-->
     <color name="green_light">#D8F4DE</color>
     <color name="red">#DC2828</color>
     <color name="pink_light">#FDDBDB</color>
     <color name="pink_darker">#F86565</color>
     <color name="blue_dark">#3E425F</color>
-    <color name="gray">#DFDFDF</color>
+    <color name="gray_light">#DFDFDF</color>
+    <color name="gray">#959798</color>
 </resources>

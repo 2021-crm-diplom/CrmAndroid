@@ -18,4 +18,6 @@
     <string name="trade_update_status_error_desc">Не удалось обновить статус сделки</string>
 
     <string name="trade_tasks_empty">Задач нет</string>
+
+    <string name="comment_send_hint">Написать…</string>
 </resources>

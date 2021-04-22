@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.trades.views
+package kz.iitu.diplom.crm.modules.trades.bindings
 
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 

@@ -15,8 +15,8 @@ import kz.iitu.diplom.crm.modules.SecondFragment
 import kz.iitu.diplom.crm.modules.ThirdFragment
 import kz.iitu.diplom.crm.modules.trades.all_trades.AllTradesFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
-import kz.iitu.diplom.crm.modules.trades.StatusChangedCallback
-import kz.iitu.diplom.crm.modules.trades.TradeDetailFragment
+import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
+import kz.iitu.diplom.crm.modules.trades.details.TradeDetailFragment
 import kz.iitu.diplom.crm.modules.trades.models.Task
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
@@ -32,6 +32,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         private const val TRADES = "trades"
         private const val EMPLOYEES = "employees"
         private const val TASKS = "tasks"
+        private const val COMMENTS = "comments"
         private const val TAG = "NavigationActivity"
     }
 
@@ -204,7 +205,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         pushFragmentBackStack(TradeDetailFragment.create(trade))
     }
 
-    override fun loadAllTrades(callback: AsyncCallback) {
+    override fun loadAllTrades(callback: QuerySnapshotCallback) {
         firestoreDb.collection(TRADES)
             .get()
             .onSuccess(this) { result ->
@@ -216,7 +217,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             }
     }
 
-    override fun loadTasksForTrade(tradeId: String, callback: AsyncCallback) {
+    override fun loadTasksForTrade(tradeId: String, callback: QuerySnapshotCallback) {
         firestoreDb.collection(TASKS)
             .whereEqualTo("tradeId", tradeId)
             .get()
@@ -228,6 +229,14 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
                 callback.onFailure(e)
             }
     }
+
+    /**
+     *
+     *
+     * Trade Details Fragment
+     *
+     *
+     */
 
     override fun updateTasksCompleted(updatedTasks: List<Task>) {
         updatedTasks.forEach { task ->
@@ -241,5 +250,31 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
                     Log.e(TAG, "updateTasksCompleted failure", it)
                 }
         }
+    }
+
+    override fun loadCommentsForTrade(tradeId: String, callback: QuerySnapshotCallback) {
+        firestoreDb.collection(COMMENTS)
+            .whereEqualTo("tradeId", tradeId)
+            .get()
+            .addOnSuccessListener { result ->
+                callback.onSuccess(result)
+                Log.i(TAG, "loadCommentsForTrade success")
+            }
+            .addOnFailureListener {
+                callback.onFailure(it)
+                Log.e(TAG, "loadCommentsForTrade failure", it)
+            }
+    }
+
+    override fun addTradeComment(comment: Map<String, String?>, callback: DocumentReferenceCallback) {
+        firestoreDb.collection(COMMENTS)
+            .add(comment)
+            .addOnSuccessListener { document ->
+                callback.onSuccess(document)
+                Log.i(TAG, "addTradeComment success with ID = ${document.id}")
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "addTradeComment failed", it)
+            }
     }
 }

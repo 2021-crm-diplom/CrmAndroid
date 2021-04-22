@@ -22,12 +22,11 @@
             android:paddingBottom="16dp"
             android:orientation="vertical">
 
-            <kz.iitu.diplom.crm.modules.profile.widgets.ProfileAvatarWidget
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="16dp"
+            <kz.iitu.diplom.crm.core.AvatarWidget
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/profile_avatar"/>
+                app:type="normal" />
 
             <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
                 android:id="@+id/edit_text_lastname"

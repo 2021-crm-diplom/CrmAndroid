@@ -5,7 +5,7 @@
     <color name="colorPrimaryDark">#323234</color>
     <color name="colorAccent">#2DCA81</color>
     <color name="white">#FFFFFF</color>
-    <color name="white_mat">#F4F5F9</color>
+    <color name="white_mat">#F5F6FA</color>
     <color name="white_mat_o60">#CFCECE</color>
 
     <color name="silver">#696D82</color>
@@ -19,4 +19,7 @@
     <color name="blue_dark">#3E425F</color>
     <color name="gray_light">#DFDFDF</color>
     <color name="gray">#959798</color>
+
+    <color name="avatar_gradient_1">#FEAF84</color>
+    <color name="avatar_gradient_2">#FE833F</color>
 </resources>

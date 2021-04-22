@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:fillViewport="true">
             <LinearLayout
                 android:id="@+id/layout_trade"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -102,24 +104,35 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp" />
-            </LinearLayout>
-    </ScrollView>
 
-    <kz.iitu.diplom.crm.modules.trades.views.CommentWidget
-        android:id="@+id/comment_widget"
+                <kz.iitu.diplom.crm.modules.trades.views.CommentsWidget
+                    android:id="@+id/comments_widget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"/>
+            </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <kz.iitu.diplom.crm.modules.trades.views.CommentInputWidget
+        android:id="@+id/comment_input_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_gravity="top"
+        android:layout_margin="16dp"
         android:backgroundTint="@color/white"
+        android:translationY="-20dp"
         app:borderWidth="0dp"
         app:srcCompat="@drawable/ic_expand"
         app:fabSize="mini"
-        app:layout_anchor="@id/comment_widget"
+        app:layout_anchor="@id/comment_input_widget"
         app:layout_anchorGravity="top|right"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

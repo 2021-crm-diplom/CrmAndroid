@@ -7,8 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingEnd="16dp">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,6 +16,7 @@
             android:id="@+id/tradeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:textAppearance="@style/TradeTitleTextAppearance"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Начать работу"/>
@@ -25,6 +25,7 @@
             android:id="@+id/tradeStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:textColor="@color/silver"
             android:textSize="14sp"
@@ -36,6 +37,7 @@
             android:id="@+id/tradeDeadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/silver"
             android:textSize="14sp"
@@ -43,18 +45,64 @@
             app:layout_constraintTop_toBottomOf="@id/tradeStartDate"
             tools:text="Дедлайн 7 марта"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/trade_tasks_count_background"
+            app:layout_constraintTop_toBottomOf="@id/tradeDeadline">
+            <ImageView
+                android:id="@+id/task_icon"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/ic_clock"
+                app:tint="@color/silver"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/tasks_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/task_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="1 задача" />
+            <TextView
+                android:id="@+id/tasks_completed_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Завершено 1 из 1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:background="@color/gray_light"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutTradeStatus"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp">
 
         <kz.iitu.diplom.crm.modules.trades.views.TradeStatusWidget
             android:id="@+id/tradeStatus"
@@ -69,11 +117,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
+        <kz.iitu.diplom.crm.core.AvatarWidget
             android:id="@+id/tradeEmployeeAvatar"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/profile_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:type="mini"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

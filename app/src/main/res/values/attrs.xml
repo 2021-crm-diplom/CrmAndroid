@@ -4,4 +4,11 @@
         <attr name="hint" format="string"/>
         <attr name="editable" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="AvatarWidget">
+        <attr name="type" format="enum">
+            <enum name="mini" value="0"/>
+            <enum name="normal" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>

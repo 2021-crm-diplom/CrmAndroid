@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.modules.trades.StatusChangedCallback
+import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
 
 class TradeStatusDialog(

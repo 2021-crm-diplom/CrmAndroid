@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.trades
+package kz.iitu.diplom.crm.modules.trades.bindings
 
 import androidx.databinding.BindingAdapter
 import kz.iitu.diplom.crm.modules.trades.models.Trade

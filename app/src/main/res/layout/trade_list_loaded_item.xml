@@ -4,10 +4,10 @@
     <data>
         <variable
             name="obj"
-            type="kz.iitu.diplom.crm.modules.trades.views.TradeObj" />
+            type="kz.iitu.diplom.crm.modules.trades.bindings.TradeObj" />
         <variable
             name="act"
-            type="kz.iitu.diplom.crm.modules.trades.TradeAct" />
+            type="kz.iitu.diplom.crm.modules.trades.bindings.TradeAct" />
     </data>
 
     <FrameLayout

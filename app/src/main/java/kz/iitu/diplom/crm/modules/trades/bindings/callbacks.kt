@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.trades
+package kz.iitu.diplom.crm.modules.trades.bindings
 
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus

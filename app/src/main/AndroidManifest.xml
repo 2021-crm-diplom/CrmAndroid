@@ -24,7 +24,7 @@
 
         <activity
             android:name=".modules.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
     </application>
 

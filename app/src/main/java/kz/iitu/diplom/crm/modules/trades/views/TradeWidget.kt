@@ -3,12 +3,17 @@ package kz.iitu.diplom.crm.modules.trades.views
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.modules.trades.TradeClickListener
-import kz.iitu.diplom.crm.modules.trades.TradeStatusClickListener
+import kz.iitu.diplom.crm.modules.trades.bindings.TradeClickListener
+import kz.iitu.diplom.crm.modules.trades.bindings.TradeStatusClickListener
+import kz.iitu.diplom.crm.modules.trades.models.Task
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
 import kz.iitu.diplom.crm.utils.isToday
@@ -22,6 +27,7 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private var titleView: TextView
     private var tradeStartDate: TextView
     private var tradeDeadline: TextView
+    private var tasksCountLayout: ConstraintLayout
     private var statusWidget: TradeStatusWidget
 
     private var trade: Trade? = null
@@ -35,6 +41,7 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
         titleView = view.findViewById(R.id.tradeTitle)
         tradeStartDate = view.findViewById(R.id.tradeStartDate)
         tradeDeadline = view.findViewById(R.id.tradeDeadline)
+        tasksCountLayout = view.findViewById(R.id.layout_tasks)
         statusWidget = view.findViewById(R.id.tradeStatus)
     }
 
@@ -43,6 +50,7 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
         setStartDate(trade.startDate)
         setDeadline(trade.deadline)
         setTradeStatus(trade.status)
+        initTasksCount(trade.tasks)
         this.trade = trade
     }
 
@@ -87,6 +95,19 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
         }
         if(date.before(Date())) {
             tradeDeadline.setTextColor(ContextCompat.getColor(context, R.color.red))
+        }
+    }
+
+    private fun initTasksCount(tasks: List<Task>) {
+        if(tasks.isNullOrEmpty()) {
+            tasksCountLayout.visibility = View.GONE
+        } else {
+            tasksCountLayout.visibility = View.VISIBLE
+            val tasksCountView = findViewById<TextView>(R.id.tasks_count)
+            val tasksCountCompletedView = findViewById<TextView>(R.id.tasks_completed_count)
+            val completedCount = tasks.count { it.isCompleted == true }
+            tasksCountView.text = context.getString(R.string.trade_tasks_count, tasks.size)
+            tasksCountCompletedView.text = context.getString(R.string.trade_tasks_completed_count, completedCount, tasks.size)
         }
     }
 

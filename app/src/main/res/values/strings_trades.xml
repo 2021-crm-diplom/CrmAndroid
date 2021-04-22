@@ -11,6 +11,10 @@
     <string name="trade_paused">Приостановлена</string>
     <string name="trade_rejected">Отклонена</string>
 
+    <string name="trades_count">Сделок %1$d</string>
+    <string name="trade_tasks_count">задач %1$d</string>
+    <string name="trade_tasks_completed_count">Завершено %1$d из %2$d</string>
+
     <string name="trade_list_empty">Сделки не найдены.</string>
     <string name="trade_list_failed">Не удалось загрузить данные.</string>
 
@@ -19,5 +23,8 @@
 
     <string name="trade_tasks_empty">Задач нет</string>
 
-    <string name="comment_send_hint">Написать…</string>
+    <string name="comments">Комментарии</string>
+    <string name="comments_empty_item">Нет комментариев</string>
+    <string name="comments_failed_item">Не удалось загрузить комментарии</string>
+    <string name="comment_send_hint">Написать комментарий…</string>
 </resources>

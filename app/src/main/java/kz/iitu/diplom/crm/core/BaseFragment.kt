@@ -11,6 +11,11 @@ import com.google.android.material.snackbar.Snackbar
 open class BaseFragment : Fragment() {
 
     open var title: String? = null
+    open var subtitle: String? = null
+        set(value) {
+            field = value
+            baseActivity?.setToolbarSubtitle(value)
+        }
 
     var baseActivity: BaseActivity? = null
 
@@ -18,6 +23,7 @@ open class BaseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         baseActivity = context as BaseActivity
         baseActivity?.setToolbarTitle(title)
+        baseActivity?.setToolbarSubtitle(subtitle)
     }
 
     protected fun showSnackbar(view: View, @StringRes resId: Int) {

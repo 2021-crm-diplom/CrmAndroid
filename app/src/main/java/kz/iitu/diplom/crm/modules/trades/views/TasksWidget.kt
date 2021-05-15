@@ -26,6 +26,8 @@ class TasksWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private val tasks = mutableListOf<Task>()
     val updatedTasks = mutableListOf<Task>()
 
+    var isTasksClickable: Boolean = true
+
     init {
         val view = inflate(context, R.layout.tasks_widget, this)
         header = view.findViewById(R.id.header)
@@ -53,7 +55,9 @@ class TasksWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
         titleView.text = SpannableString(task.title)
         updateTaskIcon(iconView, task.isCompleted)
         updateTaskTitle(titleView, task.isCompleted)
-        iconView.setOnClickListener { updateTask(task, iconView, titleView) }
+        iconView.setOnClickListener {
+            if(isTasksClickable) updateTask(task, iconView, titleView)
+        }
         layoutTasks.addView(view)
     }
 

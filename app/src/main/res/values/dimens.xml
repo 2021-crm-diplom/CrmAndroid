@@ -2,4 +2,7 @@
 <resources>
     <dimen name="fab_mini_size">26dp</dimen>
     <dimen name="fab_normal_size">36dp</dimen>
+
+    <dimen name="profile_card_radius">7dp</dimen>
+    <dimen name="profile_card_elevation">1.5dp</dimen>
 </resources>

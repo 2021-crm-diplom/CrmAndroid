@@ -21,6 +21,7 @@ open class BaseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        subtitle = null
         baseActivity = context as BaseActivity
         baseActivity?.setToolbarTitle(title)
         baseActivity?.setToolbarSubtitle(subtitle)

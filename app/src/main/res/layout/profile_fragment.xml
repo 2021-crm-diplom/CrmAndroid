@@ -6,85 +6,236 @@
     android:layout_height="match_parent"
     android:background="@color/white_mat">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="7dp"
-        app:cardElevation="1.5dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="16dp"
-            android:orientation="vertical">
-
-            <kz.iitu.diplom.crm.core.AvatarWidget
+            android:scrollbars="none">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                app:type="normal" />
+                android:orientation="horizontal">
 
-            <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
-                android:id="@+id/edit_text_lastname"
+                <kz.iitu.diplom.crm.modules.profile.widgets.CardTradeCountWidget
+                    android:id="@+id/tradeAllCountWidget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <kz.iitu.diplom.crm.modules.profile.widgets.CardTradeCountWidget
+                    android:id="@+id/tradeOverdueWidget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <kz.iitu.diplom.crm.modules.profile.widgets.CardTradeCountWidget
+                    android:id="@+id/tradeCompletedTodayWidget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <kz.iitu.diplom.crm.modules.profile.widgets.CardTradeCountWidget
+                    android:id="@+id/tradeInWorkWidget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tasks_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="1.5dp">
+
+            <kz.iitu.diplom.crm.modules.trades.views.TasksWidget
+                android:id="@+id/tasksWidget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hint="@string/profile_surname"/>
+                android:layout_margin="16dp"/>
+        </com.google.android.material.card.MaterialCardView>
 
-            <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
-                android:id="@+id/edit_text_first_name"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/employees_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="1.5dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hint="@string/profile_name"/>
+                android:layout_margin="16dp">
+                <ImageView
+                    android:id="@+id/icon_employees"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_users"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/employees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:text="@string/profile_employees"
+                    app:layout_constraintStart_toEndOf="@id/icon_employees"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:tint="@color/gray" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
-                android:id="@+id/edit_text_phone"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/reports_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="1.5dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hint="@string/profile_phone"
-                app:editable="false"/>
+                android:layout_margin="16dp">
+                <ImageView
+                    android:id="@+id/icon_reports"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_statistics"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/reports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/profile_reports"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:layout_constraintStart_toEndOf="@id/icon_reports"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:tint="@color/gray"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <kz.iitu.diplom.crm.modules.profile.widgets.ProfileGenderWidget
-                android:id="@+id/edit_text_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="1.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="16dp"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/button_save"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp"
-                    android:text="@string/save"
-                    style="@style/ProfileButtonSave"/>
+                <kz.iitu.diplom.crm.core.AvatarWidget
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:type="normal" />
 
-                <Button
-                    android:id="@+id/button_signout"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp"
-                    android:text="@string/exit"
-                    style="@style/ProfileButtonExit"/>
+                <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
+                    android:id="@+id/edit_text_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hint="@string/profile_surname"/>
+
+                <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
+                    android:id="@+id/edit_text_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hint="@string/profile_name"/>
+
+                <kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
+                    android:id="@+id/edit_text_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hint="@string/profile_phone"
+                    app:editable="false"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/button_save"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_margin="4dp"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp"
+                        android:text="@string/save"
+                        style="@style/ProfileButtonSave"/>
+
+                    <Button
+                        android:id="@+id/button_signout"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp"
+                        android:text="@string/exit"
+                        style="@style/ProfileButtonExit"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </ScrollView>

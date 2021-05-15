@@ -49,7 +49,7 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
     }
 
     fun setToolbarSubtitle(subtitle: String?) {
-        subtitle?.let { toolbar.subtitle = subtitle }
+        subtitle?.let { toolbar.subtitle = subtitle } ?: run { toolbar.subtitle = null }
     }
 
     fun hideToolbar() {

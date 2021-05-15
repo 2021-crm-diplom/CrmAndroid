@@ -11,4 +11,8 @@ class App : Application() {
         AppPreferences.init(this)
     }
 
+    //TODO: 1. ProfileFragment save to frirebase
+    //TODO: 2. AvatarWidget dynamically change letters for name
+    //TODO: 3.
+    //TODO:
 }

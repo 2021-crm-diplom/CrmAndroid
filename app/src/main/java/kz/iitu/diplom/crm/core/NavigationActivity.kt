@@ -11,10 +11,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.modules.SecondFragment
-import kz.iitu.diplom.crm.modules.ThirdFragment
-import kz.iitu.diplom.crm.modules.trades.all_trades.AllTradesFragment
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
+import kz.iitu.diplom.crm.modules.settings.SettingsFragment
+import kz.iitu.diplom.crm.modules.trades.*
 import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
 import kz.iitu.diplom.crm.modules.trades.details.TradeDetailFragment
 import kz.iitu.diplom.crm.modules.trades.models.Task
@@ -26,7 +25,7 @@ import kz.iitu.diplom.crm.utils.onFailure
 import kz.iitu.diplom.crm.utils.onSuccess
 
 abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R.layout.base_navigation_activity) :
-    BaseActivity(contentLayout), AllTradesFragment.Delegate, TradeDetailFragment.Delegate {
+    BaseActivity(contentLayout), TradeDetailFragment.Delegate, BaseTradesFragment.Delegate, ProfileFragment.Delegate {
 
     companion object {
         private const val TRADES = "trades"
@@ -101,27 +100,27 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
                 }
                 R.id.menu_trades_waiting -> {
                     currentMenuItem = NavigationMenuItem.TRADES_WAITING
-                    SecondFragment::class.java.newInstance()
+                    WaitingTradesFragment::class.java.newInstance()
                 }
                 R.id.menu_trades_inwork ->  {
                     currentMenuItem = NavigationMenuItem.TRADES_INWORK
-                    ThirdFragment::class.java.newInstance()
+                    InWorkTradesFragment::class.java.newInstance()
                 }
                 R.id.menu_trades_completed ->  {
                     currentMenuItem = NavigationMenuItem.TRADES_COMPLETED
-                    ThirdFragment::class.java.newInstance()
+                    CompletedTradesFragment::class.java.newInstance()
                 }
                 R.id.menu_trades_paused ->  {
                     currentMenuItem = NavigationMenuItem.TRADES_PAUSED
-                    ThirdFragment::class.java.newInstance()
+                    PausedTradesFragment::class.java.newInstance()
                 }
                 R.id.menu_trades_rejected ->  {
                     currentMenuItem = NavigationMenuItem.TRADES_REJECTED
-                    ThirdFragment::class.java.newInstance()
+                    RejectedTradesFragment::class.java.newInstance()
                 }
                 R.id.menu_settings -> {
                     currentMenuItem = NavigationMenuItem.SETTINGS
-                    ThirdFragment::class.java.newInstance()
+                    SettingsFragment::class.java.newInstance()
                 }
                 else -> throw ClassNotFoundException("Cannot find class for navigation fragment")
             }
@@ -184,26 +183,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
      * All Trades Fragment
      *
      */
-    override fun onStatusClicked(docId: String, currentStatus: TradeStatus, statusChangedCallback: StatusChangedCallback, position: Int) {
-        pushDialog(TradeStatusDialog(docId, currentStatus,  statusChangedCallback, position))
-    }
 
-    override fun onStatusChanged(id: String, newStatus: TradeStatus) {
-        firestoreDb.collection(TRADES)
-            .document(id)
-            .update("status", newStatus.title)
-            .addOnFailureListener {
-                Log.i(TAG, "onStatusChanged Error update status", it)
-                AlertPopup(this,
-                    getString(R.string.trade_update_status_error_title),
-                    getString(R.string.trade_update_status_error_desc)
-                ).show()
-            }
-    }
-
-    override fun onTradeClicked(trade: Trade) {
-        pushFragmentBackStack(TradeDetailFragment.create(trade))
-    }
 
     override fun loadAllTrades(callback: QuerySnapshotCallback) {
         firestoreDb.collection(TRADES)
@@ -217,15 +197,15 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             }
     }
 
-    override fun loadTasksForTrade(tradeId: String, callback: QuerySnapshotCallback) {
-        firestoreDb.collection(TASKS)
-            .whereEqualTo("tradeId", tradeId)
+    override fun loadTradesByStatus(status: TradeStatus, callback: QuerySnapshotCallback) {
+        firestoreDb.collection(TRADES)
+            .whereEqualTo("status", status.title)
             .get()
             .onSuccess(this) { result ->
                 callback.onSuccess(result)
             }
             .onFailure(this) { e ->
-                Log.e(TAG, "loadTasksForTrade Failed to load tasks for tradeId $tradeId", e)
+                Log.e(TAG, "loadTradesByStatus: $status failed", e)
                 callback.onFailure(e)
             }
     }
@@ -275,6 +255,80 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             }
             .addOnFailureListener {
                 Log.e(TAG, "addTradeComment failed", it)
+            }
+    }
+
+    /**
+     *
+     *
+     * Profile Fragment
+     *
+     *
+     */
+
+
+    override fun loadAllTradesForProfile(callback: QuerySnapshotCallback) {
+        loadAllTrades(callback)
+    }
+
+    override fun loadAllTasks(callback: QuerySnapshotCallback) {
+        firestoreDb.collection(TASKS)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                callback.onFailure(e)
+            }
+    }
+
+    override fun onProfileEmployeesClicked() {
+    }
+
+    override fun onProfileReportsClicked() {
+    }
+
+    /**
+     *
+     *
+     *
+     * Common delegates
+     *
+     *
+     *
+     */
+
+    override fun onStatusClicked(docId: String, currentStatus: TradeStatus, statusChangedCallback: StatusChangedCallback, position: Int) {
+        pushDialog(TradeStatusDialog(docId, currentStatus,  statusChangedCallback, position))
+    }
+
+    override fun onStatusChanged(id: String, newStatus: TradeStatus) {
+        firestoreDb.collection(TRADES)
+            .document(id)
+            .update("status", newStatus.title)
+            .addOnFailureListener {
+                Log.i(TAG, "onStatusChanged Error update status", it)
+                AlertPopup(this,
+                    getString(R.string.trade_update_status_error_title),
+                    getString(R.string.trade_update_status_error_desc)
+                ).show()
+            }
+    }
+
+    override fun onTradeClicked(trade: Trade) {
+        pushFragmentBackStack(TradeDetailFragment.create(trade))
+    }
+
+    override fun loadTasksForTrade(tradeId: String, callback: QuerySnapshotCallback) {
+        firestoreDb.collection(TASKS)
+            .whereEqualTo("tradeId", tradeId)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                Log.e(TAG, "loadTasksForTrade Failed to load tasks for tradeId $tradeId", e)
+                callback.onFailure(e)
             }
     }
 }

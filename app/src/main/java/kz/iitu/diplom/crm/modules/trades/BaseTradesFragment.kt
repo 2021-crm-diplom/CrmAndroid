@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.trades.all_trades
+package kz.iitu.diplom.crm.modules.trades
 
 import android.content.Context
 import android.os.Bundle
@@ -8,24 +8,25 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.google.firebase.firestore.QuerySnapshot
 import kz.iitu.diplom.crm.R
-import kz.iitu.diplom.crm.core.QuerySnapshotCallback
 import kz.iitu.diplom.crm.core.BaseFragment
 import kz.iitu.diplom.crm.core.BindingRecyclerAdapter
+import kz.iitu.diplom.crm.core.QuerySnapshotCallback
 import kz.iitu.diplom.crm.core.SwipeRecycler
-import kz.iitu.diplom.crm.modules.trades.*
+import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
+import kz.iitu.diplom.crm.modules.trades.bindings.TradeAct
+import kz.iitu.diplom.crm.modules.trades.bindings.TradeObj
 import kz.iitu.diplom.crm.modules.trades.models.Task
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
-import kz.iitu.diplom.crm.modules.trades.bindings.TradeObj
-import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
-import kz.iitu.diplom.crm.modules.trades.bindings.TradeAct
 import kz.iitu.diplom.crm.modules.trades.views.TradeWidget
 
-class AllTradesFragment : BaseFragment(), TradeAct {
+abstract class BaseTradesFragment : BaseFragment(), TradeAct {
 
-    private var adapter: Adapter? = null
-    private var delegate: Delegate? = null
-    private var swipeRecycler: SwipeRecycler? = null
+    protected var delegate: Delegate? = null
+    protected var swipeRecycler: SwipeRecycler? = null
+    protected var adapter: Adapter? = null
+
+    abstract fun loadTrades()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,15 +38,14 @@ class AllTradesFragment : BaseFragment(), TradeAct {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.all_trades_fragment, container ,false)
-        title = getString(R.string.menu_trades_all)
-        swipeRecycler = view.findViewById(R.id.swipe_recycler)
+        val view = inflater.inflate(R.layout.base_trades_fragment, container ,false)
         adapter = Adapter()
+        swipeRecycler = view.findViewById(R.id.swipe_recycler)
         swipeRecycler?.adapter = adapter
         swipeRecycler?.onRefresh {
-            loadAllTrades()
+            loadTrades()
         }
-        loadAllTrades()
+        loadTrades()
         return view
     }
 
@@ -58,53 +58,55 @@ class AllTradesFragment : BaseFragment(), TradeAct {
     }
 
     override fun onRetryLoadTrades() {
-        loadAllTrades()
+        loadTrades()
     }
 
-    private fun loadAllTrades() {
-        swipeRecycler?.isRefreshing = true
-        adapter?.tradesState = TradesState(Status.LOADING)
-        delegate?.loadAllTrades(object : QuerySnapshotCallback {
-            override fun onSuccess(result: QuerySnapshot) {
-                if(result.isEmpty) adapter?.tradesState = TradesState(Status.LOADED)
-                else {
-                    val trades = mutableListOf<Trade>()
-                    result.forEach { tradeDoc ->
-                        var trade = Trade(tradeDoc)
-                        delegate?.loadTasksForTrade(trade.id, object: QuerySnapshotCallback {
-                            override fun onSuccess(result: QuerySnapshot) {
-                                val tasks = mutableListOf<Task>()
-                                result.forEach { taskDoc ->
-                                    tasks.add(Task(taskDoc))
-                                }
-                                trade = trade.copy(tasks = tasks)
-                                trades.add(trade)
-                                adapter?.tradesState = TradesState(Status.LOADED, trades)
-                                subtitle = getString(R.string.trades_count, trades.size)
-                                swipeRecycler?.isRefreshing = false
+    protected val tradeLoadCallback = object : QuerySnapshotCallback {
+        override fun onSuccess(result: QuerySnapshot) {
+            if(result.isEmpty) {
+                adapter?.tradesState = TradesState(Status.LOADED)
+                swipeRecycler?.isRefreshing = false
+                subtitle = null
+            }
+            else {
+                val trades = mutableListOf<Trade>()
+                result.forEach { tradeDoc ->
+                    var trade = Trade(tradeDoc)
+                    delegate?.loadTasksForTrade(trade.id, object: QuerySnapshotCallback {
+                        override fun onSuccess(result: QuerySnapshot) {
+                            val tasks = mutableListOf<Task>()
+                            result.forEach { taskDoc ->
+                                tasks.add(Task(taskDoc))
                             }
-                            override fun onFailure(e: Exception) {
-                                adapter?.tradesState = TradesState(Status.FAILED)
-                                swipeRecycler?.isRefreshing = false
-                            }
-                        })
-                    }
+                            trade = trade.copy(tasks = tasks)
+                            trades.add(trade)
+                            adapter?.tradesState = TradesState(Status.LOADED, trades)
+                            subtitle = getString(R.string.trades_count, trades.size)
+                            swipeRecycler?.isRefreshing = false
+                        }
+                        override fun onFailure(e: Exception) {
+                            adapter?.tradesState = TradesState(Status.FAILED)
+                            swipeRecycler?.isRefreshing = false
+                            subtitle = null
+                        }
+                    })
                 }
             }
-            override fun onFailure(e: Exception) {
-                adapter?.tradesState = TradesState(Status.FAILED)
-                swipeRecycler?.isRefreshing = false
-            }
-        })
+        }
+        override fun onFailure(e: Exception) {
+            adapter?.tradesState = TradesState(Status.FAILED)
+            swipeRecycler?.isRefreshing = false
+        }
     }
 
-    private val statusChangedCallback: StatusChangedCallback = { docId, status, position ->
+    protected val statusChangedCallback: StatusChangedCallback = { docId, status, position ->
         val tradeWidget = (swipeRecycler?.findItemAt(position) as? FrameLayout)?.getChildAt(0) as? TradeWidget
         tradeWidget?.setTradeStatus(status)
         delegate?.onStatusChanged(docId, status)
+        if(this !is AllTradesFragment) loadTrades()
     }
 
-    private inner class Adapter : BindingRecyclerAdapter() {
+    protected inner class Adapter : BindingRecyclerAdapter() {
         var tradesState: TradesState = TradesState(Status.LOADED)
             set(value) {
                 field = value
@@ -115,7 +117,7 @@ class AllTradesFragment : BaseFragment(), TradeAct {
             tradesState.status == Status.LOADING -> Pair(null, null)
             tradesState.status == Status.FAILED -> Pair(null, null)
             tradesState.trades.isNullOrEmpty() -> Pair(null, null)
-            else -> Pair(TradeObj(tradesState.trades[position], position), this@AllTradesFragment)
+            else -> Pair(TradeObj(tradesState.trades[position], position), this@BaseTradesFragment)
         }
 
         override fun layoutIdForPosition(position: Int) = when {
@@ -138,6 +140,7 @@ class AllTradesFragment : BaseFragment(), TradeAct {
         fun onStatusChanged(id: String, newStatus: TradeStatus)
         fun onTradeClicked(trade: Trade)
         fun loadAllTrades(callback: QuerySnapshotCallback)
+        fun loadTradesByStatus(status: TradeStatus, callback: QuerySnapshotCallback)
         fun loadTasksForTrade(tradeId: String, callback: QuerySnapshotCallback)
     }
 }

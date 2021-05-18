@@ -1,4 +1,4 @@
-package kz.iitu.diplom.crm.modules.trades
+package kz.iitu.diplom.crm.model
 
 enum class Status {
     LOADING,

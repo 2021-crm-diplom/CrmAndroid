@@ -13,8 +13,4 @@ class MainActivity : NavigationActivity() {
             context.startActivity(intent)
         }
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 }

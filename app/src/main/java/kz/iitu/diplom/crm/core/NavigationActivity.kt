@@ -11,7 +11,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kz.iitu.diplom.crm.R
+import kz.iitu.diplom.crm.model.Client
+import kz.iitu.diplom.crm.model.Employee
+import kz.iitu.diplom.crm.modules.profile.ProfileClientDialog
+import kz.iitu.diplom.crm.modules.profile.ProfileEmployeesDialog
 import kz.iitu.diplom.crm.modules.profile.ProfileFragment
+import kz.iitu.diplom.crm.modules.profile.ProfileReportsFragment
 import kz.iitu.diplom.crm.modules.settings.SettingsFragment
 import kz.iitu.diplom.crm.modules.trades.*
 import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
@@ -32,6 +37,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
         private const val EMPLOYEES = "employees"
         private const val TASKS = "tasks"
         private const val COMMENTS = "comments"
+        private const val CLIENTS = "clients"
         private const val TAG = "NavigationActivity"
     }
 
@@ -72,6 +78,23 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
         setupNavigation()
         initHeaderView()
+    }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount < 1) {
+            finishGracefully()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun finishGracefully() {
+        AlertPopup(this, getString(R.string.finish_app_title), getString(R.string.finish_app_message))
+            .setPositiveButton(getString(R.string.yes)) {
+                super.onBackPressed()
+            }
+            .setNegativeButton(getString(R.string.cancel))
+            .show()
     }
 
     private fun setupNavigation() {
@@ -282,10 +305,38 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
             }
     }
 
-    override fun onProfileEmployeesClicked() {
+    override fun loadEmployees(callback: QuerySnapshotCallback) {
+        firestoreDb.collection(EMPLOYEES)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                callback.onFailure(e)
+            }
+    }
+
+    override fun loadClients(callback: QuerySnapshotCallback) {
+        firestoreDb.collection(CLIENTS)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                callback.onFailure(e)
+            }
+    }
+
+    override fun onProfileEmployeesClicked(employees: List<Employee>) {
+        pushDialog(ProfileEmployeesDialog(employees))
+    }
+
+    override fun onProfileClientsClicked(clients: List<Client>) {
+        pushDialog(ProfileClientDialog(clients))
     }
 
     override fun onProfileReportsClicked() {
+        addFragment(ProfileReportsFragment())
     }
 
     /**

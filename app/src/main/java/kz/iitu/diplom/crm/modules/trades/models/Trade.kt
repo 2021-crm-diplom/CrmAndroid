@@ -17,6 +17,9 @@ data class Trade (
     val description: String?,
     val employee: String?,
     val status: TradeStatus,
+    val client: String?,
+    val clientFirstName: String?,
+    val clientLastName: String?,
     val tasks: @RawValue List<Task> = listOf()
 ) : Parcelable {
 
@@ -28,6 +31,9 @@ data class Trade (
         deadline = document.getString("deadline")?.parse() ?: throw Exception("deadline cannot be null"),
         description = document.getString("description"),
         employee = document.getString("employee"),
-        status = TradeStatus.fromStringValue(document.getString("status")) ?: throw Exception("status cannot be null")
+        status = TradeStatus.fromStringValue(document.getString("status")) ?: throw Exception("status cannot be null"),
+        client = document.getString("client"),
+        clientFirstName = document.getString("clientFirstName"),
+        clientLastName = document.getString("clientLastName"),
     )
 }

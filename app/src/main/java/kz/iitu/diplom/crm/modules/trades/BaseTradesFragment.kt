@@ -12,6 +12,7 @@ import kz.iitu.diplom.crm.core.BaseFragment
 import kz.iitu.diplom.crm.core.BindingRecyclerAdapter
 import kz.iitu.diplom.crm.core.QuerySnapshotCallback
 import kz.iitu.diplom.crm.core.SwipeRecycler
+import kz.iitu.diplom.crm.model.Status
 import kz.iitu.diplom.crm.modules.trades.bindings.StatusChangedCallback
 import kz.iitu.diplom.crm.modules.trades.bindings.TradeAct
 import kz.iitu.diplom.crm.modules.trades.bindings.TradeObj

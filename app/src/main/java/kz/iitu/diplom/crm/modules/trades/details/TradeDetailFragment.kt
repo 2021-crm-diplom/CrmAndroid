@@ -2,11 +2,9 @@ package kz.iitu.diplom.crm.modules.trades.details
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -17,11 +15,12 @@ import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.QuerySnapshotCallback
 import kz.iitu.diplom.crm.core.BaseFragment
 import kz.iitu.diplom.crm.core.DocumentReferenceCallback
-import kz.iitu.diplom.crm.modules.trades.Status
+import kz.iitu.diplom.crm.model.Status
 import kz.iitu.diplom.crm.modules.trades.models.Comment
 import kz.iitu.diplom.crm.modules.trades.models.Task
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
+import kz.iitu.diplom.crm.modules.trades.views.ClientWidget
 import kz.iitu.diplom.crm.modules.trades.views.CommentInputWidget
 import kz.iitu.diplom.crm.modules.trades.views.CommentsWidget
 import kz.iitu.diplom.crm.modules.trades.views.TasksWidget
@@ -47,6 +46,7 @@ class TradeDetailFragment : BaseFragment() {
     private var tradeDeadline: TextView? = null
     private var tradeStatus: TextView? = null
     private var tasksWidget: TasksWidget? = null
+    private var clientWidget: ClientWidget? = null
     private var commentsWidget: CommentsWidget? = null
     private var commentInputWidget: CommentInputWidget? = null
     private var fab: FloatingActionButton? = null
@@ -71,6 +71,7 @@ class TradeDetailFragment : BaseFragment() {
         tradeDeadline = view.findViewById(R.id.trade_detail_deadline)
         tradeStatus = view.findViewById(R.id.trade_detail_status)
         tasksWidget = view.findViewById(R.id.tasks_widget)
+        clientWidget = view.findViewById(R.id.clientWidget)
         commentsWidget = view.findViewById(R.id.comments_widget)
         commentInputWidget = view.findViewById(R.id.comment_input_widget)
         fab = view.findViewById(R.id.fab)
@@ -95,6 +96,7 @@ class TradeDetailFragment : BaseFragment() {
         setDeadline(trade.deadline)
         setStatus(trade.status)
         setTasks(trade.tasks)
+        initClientWidget(trade)
         initTradeComments(trade.id)
         initScrollFab()
     }
@@ -134,6 +136,11 @@ class TradeDetailFragment : BaseFragment() {
         commentInputWidget?.onSendClick { text ->
             addTradeComment(text)
         }
+    }
+
+    private fun initClientWidget(trade: Trade) {
+        clientWidget?.setClientName(trade.clientFirstName, trade.clientLastName)
+        clientWidget?.setClientPhone(trade.client)
     }
 
     private fun setDescription(description: String?) {

@@ -10,5 +10,9 @@
             <enum name="mini" value="0"/>
             <enum name="normal" value="1"/>
         </attr>
+        <attr name="bg" format="enum">
+            <enum name="employee" value="0"/>
+            <enum name="client" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

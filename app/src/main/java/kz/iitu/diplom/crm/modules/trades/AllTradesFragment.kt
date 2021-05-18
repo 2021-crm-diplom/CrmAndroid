@@ -1,5 +1,7 @@
 package kz.iitu.diplom.crm.modules.trades
 
+import kz.iitu.diplom.crm.model.Status
+
 class AllTradesFragment : BaseTradesFragment() {
 
     override fun loadTrades() {

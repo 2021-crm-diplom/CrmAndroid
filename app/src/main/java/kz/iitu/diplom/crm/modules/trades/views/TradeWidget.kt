@@ -11,11 +11,14 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kz.iitu.diplom.crm.R
+import kz.iitu.diplom.crm.core.AvatarWidget
+import kz.iitu.diplom.crm.core.setEmployee
 import kz.iitu.diplom.crm.modules.trades.bindings.TradeClickListener
 import kz.iitu.diplom.crm.modules.trades.bindings.TradeStatusClickListener
 import kz.iitu.diplom.crm.modules.trades.models.Task
 import kz.iitu.diplom.crm.modules.trades.models.Trade
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
+import kz.iitu.diplom.crm.utils.AppPreferences
 import kz.iitu.diplom.crm.utils.isToday
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +32,7 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private var tradeDeadline: TextView
     private var tasksCountLayout: ConstraintLayout
     private var statusWidget: TradeStatusWidget
+    private var tradeEmployeeAvatar: AvatarWidget
 
     private var trade: Trade? = null
     private var tradeClickListener: TradeClickListener? = null
@@ -43,6 +47,8 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
         tradeDeadline = view.findViewById(R.id.tradeDeadline)
         tasksCountLayout = view.findViewById(R.id.layout_tasks)
         statusWidget = view.findViewById(R.id.tradeStatus)
+        tradeEmployeeAvatar = view.findViewById(R.id.tradeEmployeeAvatar)
+        initAvatarWidget()
     }
 
     fun setTrade(trade: Trade) {
@@ -109,6 +115,10 @@ class TradeWidget @JvmOverloads constructor(context: Context, attrs: AttributeSe
             tasksCountView.text = context.getString(R.string.trade_tasks_count, tasks.size)
             tasksCountCompletedView.text = context.getString(R.string.trade_tasks_completed_count, completedCount, tasks.size)
         }
+    }
+
+    private fun initAvatarWidget() {
+        tradeEmployeeAvatar.setEmployeeLetters(AppPreferences.firstName, AppPreferences.lastName)
     }
 
     private fun getFormattedDateString(date: Date): String {

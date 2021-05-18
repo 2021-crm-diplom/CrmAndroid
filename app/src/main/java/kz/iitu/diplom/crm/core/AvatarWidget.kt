@@ -1,10 +1,13 @@
 package kz.iitu.diplom.crm.core
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
 import kz.iitu.diplom.crm.R
 
 class AvatarWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttributeSet: Int = 0)
@@ -21,9 +24,11 @@ class AvatarWidget @JvmOverloads constructor(context: Context, attrs: AttributeS
         bg = view.findViewById(R.id.bg)
         fgText = view.findViewById(R.id.fgText)
         var type: Int? = null
+        var bgType: Int? = null
         context.theme.obtainStyledAttributes(attrs, R.styleable.AvatarWidget,0, 0).apply {
             try {
                 type = getInteger(R.styleable.AvatarWidget_type, 0)
+                bgType = getInteger(R.styleable.AvatarWidget_bg, 0)
             } finally {
                 recycle()
             }
@@ -31,6 +36,22 @@ class AvatarWidget @JvmOverloads constructor(context: Context, attrs: AttributeS
         when (type) {
             Type.MINI.alias -> applyTypeMini()
             else -> applyTypeNormal()
+        }
+        when(bgType) {
+            BgType.CLIENT.alias -> setBackgroundType(BgType.CLIENT)
+            else -> setBackgroundType(BgType.EMPLOYEE)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun setEmployeeLetters(firstName: String?, lastName: String?) {
+        fgText.text = "${firstName?.get(0)}${lastName?.get(0)}"
+    }
+
+    fun setBackgroundType(type: BgType) {
+        when {
+            type == BgType.CLIENT -> bg.background = ContextCompat.getDrawable(context, R.drawable.profile_avatar_2)
+            else -> bg.background = ContextCompat.getDrawable(context, R.drawable.profile_avatar)
         }
     }
 
@@ -50,4 +71,14 @@ class AvatarWidget @JvmOverloads constructor(context: Context, attrs: AttributeS
         MINI(0),
         NORMAL(1)
     }
+
+    enum class BgType(val alias: Int) {
+        EMPLOYEE(0),
+        CLIENT(1)
+    }
+}
+
+@BindingAdapter("firstName", "lastName")
+fun AvatarWidget.setEmployee(firstName: String, lastName: String) {
+    this.setEmployeeLetters(firstName, lastName)
 }

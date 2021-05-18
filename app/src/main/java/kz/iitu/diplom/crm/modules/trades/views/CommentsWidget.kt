@@ -2,14 +2,13 @@ package kz.iitu.diplom.crm.modules.trades.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.BindingRecyclerAdapter
 import kz.iitu.diplom.crm.modules.trades.details.CommentsState
-import kz.iitu.diplom.crm.modules.trades.Status
+import kz.iitu.diplom.crm.model.Status
 import kz.iitu.diplom.crm.modules.trades.models.Comment
 
 class CommentsWidget @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttributeSet: Int = 0)

@@ -12,8 +12,11 @@ import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.QuerySnapshot
 import kz.iitu.diplom.crm.R
 import kz.iitu.diplom.crm.core.AlertPopup
+import kz.iitu.diplom.crm.core.AvatarWidget
 import kz.iitu.diplom.crm.core.BaseFragment
 import kz.iitu.diplom.crm.core.QuerySnapshotCallback
+import kz.iitu.diplom.crm.model.Client
+import kz.iitu.diplom.crm.model.Employee
 import kz.iitu.diplom.crm.modules.profile.widgets.CardTradeCountWidget
 import kz.iitu.diplom.crm.modules.profile.widgets.ProfileEditTextWidget
 import kz.iitu.diplom.crm.modules.startup.StartupActivity
@@ -32,7 +35,9 @@ class ProfileFragment : BaseFragment() {
     private lateinit var tradeInWorkWidget: CardTradeCountWidget
     private lateinit var tasksWidget: TasksWidget
     private lateinit var employeesButton: MaterialCardView
+    private lateinit var clientsButton: MaterialCardView
     private lateinit var reportsButton: MaterialCardView
+    private lateinit var avatarWidget: AvatarWidget
     private lateinit var lastNameEditText: ProfileEditTextWidget
     private lateinit var firstNameEditText: ProfileEditTextWidget
     private lateinit var phoneEditText: ProfileEditTextWidget
@@ -59,7 +64,9 @@ class ProfileFragment : BaseFragment() {
         tradeInWorkWidget = view.findViewById(R.id.tradeInWorkWidget)
         tasksWidget = view.findViewById(R.id.tasksWidget)
         employeesButton = view.findViewById(R.id.employees_button)
+        clientsButton = view.findViewById(R.id.clients_button)
         reportsButton = view.findViewById(R.id.reports_button)
+        avatarWidget = view.findViewById(R.id.profile_avatar)
         lastNameEditText = view.findViewById(R.id.edit_text_lastname)
         firstNameEditText = view.findViewById(R.id.edit_text_first_name)
         phoneEditText = view.findViewById(R.id.edit_text_phone)
@@ -69,6 +76,7 @@ class ProfileFragment : BaseFragment() {
         initTasksWidget()
         initFields()
         initButtons()
+        avatarWidget.setEmployeeLetters(AppPreferences.firstName, AppPreferences.lastName)
         return view
     }
 
@@ -139,6 +147,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun initButtons() {
         initEmployeesButton()
+        initClientsButton()
         initReportsButton()
         buttonSave.setOnClickListener {
             saveAndUpdate()
@@ -149,9 +158,33 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun initEmployeesButton() {
-        employeesButton.setOnClickListener {
-            delegate?.onProfileEmployeesClicked()
-        }
+        val employees = mutableListOf<Employee>()
+        delegate?.loadEmployees(object: QuerySnapshotCallback {
+            override fun onSuccess(result: QuerySnapshot) {
+                result.forEach {
+                    employees.add(Employee(it))
+                }
+                employeesButton.setOnClickListener {
+                    delegate?.onProfileEmployeesClicked(employees)
+                }
+            }
+            override fun onFailure(e: Exception) {}
+        })
+    }
+
+    private fun initClientsButton() {
+        val clients = mutableListOf<Client>()
+        delegate?.loadClients(object: QuerySnapshotCallback {
+            override fun onSuccess(result: QuerySnapshot) {
+                result.forEach {
+                    clients.add(Client(it))
+                }
+                clientsButton.setOnClickListener {
+                    delegate?.onProfileClientsClicked(clients)
+                }
+            }
+            override fun onFailure(e: Exception) {}
+        })
     }
 
     private fun initReportsButton() {
@@ -208,7 +241,10 @@ class ProfileFragment : BaseFragment() {
     interface Delegate {
         fun loadAllTradesForProfile(callback: QuerySnapshotCallback)
         fun loadAllTasks(callback: QuerySnapshotCallback)
-        fun onProfileEmployeesClicked()
+        fun loadEmployees(callback: QuerySnapshotCallback)
+        fun loadClients(callback: QuerySnapshotCallback)
+        fun onProfileEmployeesClicked(employees: List<Employee>)
+        fun onProfileClientsClicked(clients: List<Client>)
         fun onProfileReportsClicked()
     }
 }

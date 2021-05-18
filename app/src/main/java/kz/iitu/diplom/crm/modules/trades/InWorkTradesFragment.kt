@@ -1,5 +1,6 @@
 package kz.iitu.diplom.crm.modules.trades
 
+import kz.iitu.diplom.crm.model.Status
 import kz.iitu.diplom.crm.modules.trades.models.TradeStatus
 
 class InWorkTradesFragment : BaseTradesFragment() {

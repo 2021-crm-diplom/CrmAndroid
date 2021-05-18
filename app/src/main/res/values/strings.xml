@@ -5,8 +5,12 @@
     <string name="OK">OK</string>
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
+    <string name="yes">Да</string>
     <string name="exit">Выйти</string>
     <string name="retry">Повторить еще раз</string>
+
+    <string name="finish_app_title">Выйти?</string>
+    <string name="finish_app_message">Вы уверенны, что хотите выйти ?</string>
 
     <string name="common_error_title">Произошла ошибка</string>
     <string name="common_error_message">Попробуте повторить позднее!</string>

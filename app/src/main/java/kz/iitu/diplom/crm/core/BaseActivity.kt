@@ -95,6 +95,15 @@ abstract class BaseActivity(@LayoutRes open val contentLayout: Int) : AppCompatA
             .commit()
     }
 
+    protected fun addFragment(fragment: Fragment) {
+        val name = UUID.randomUUID().toString()
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(name)
+            .add(R.id.content_container, fragment, name)
+            .commit()
+    }
+
     protected fun popFragment() {
         supportFragmentManager.popBackStack()
     }

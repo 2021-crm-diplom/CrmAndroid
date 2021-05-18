@@ -97,6 +97,14 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <kz.iitu.diplom.crm.modules.trades.views.ClientWidget
+                    android:id="@+id/clientWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp" />
+
                 <kz.iitu.diplom.crm.modules.trades.views.TasksWidget
                     android:id="@+id/tasks_widget"
                     android:layout_width="match_parent"

@@ -23,6 +23,9 @@ class Comment (
         date =  document.getString("date")
     )
 
+    val firstName = author?.split(" ")?.get(0)
+    val lastName = author?.split(" ")?.get(1)
+
     companion object {
         @JvmStatic
         fun toCommentDate(dateString: String): String {

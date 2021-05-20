@@ -33,6 +33,8 @@ class ProfileEditTextWidget @JvmOverloads constructor(context: Context, attrs: A
     init {
         inputLayout = view.getChildAt(0) as TextInputLayout
         editText = inputLayout.editText as TextInputEditText
+        editable = false
+        isClickable = false
         context.theme.obtainStyledAttributes(attrs, R.styleable.ProfileEditTextWidget, 0, 0).apply {
             try {
                 hint = getString(R.styleable.ProfileEditTextWidget_hint)

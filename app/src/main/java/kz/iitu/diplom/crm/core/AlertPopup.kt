@@ -8,7 +8,7 @@ import kz.iitu.diplom.crm.R
 class AlertPopup(
     context: Context?,
     title: String,
-    message: String,
+    message: String?,
 ) {
 
     private var builder: AlertDialog.Builder? = null

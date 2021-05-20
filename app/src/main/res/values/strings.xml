@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CRM Система</string>
+    <string name="app_name">CRM Diplom</string>
     <string name="default_password">crmiitu123</string>
 
     <string name="OK">OK</string>
@@ -9,7 +9,7 @@
     <string name="exit">Выйти</string>
     <string name="retry">Повторить еще раз</string>
 
-    <string name="finish_app_title">Выйти?</string>
+    <string name="finish_app_title">Вы уверенны, что хотите закрыть приложение ?</string>
     <string name="finish_app_message">Вы уверенны, что хотите выйти ?</string>
 
     <string name="common_error_title">Произошла ошибка</string>

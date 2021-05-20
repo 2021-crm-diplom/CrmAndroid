@@ -43,7 +43,7 @@ class SignInFragment : BaseFragment() {
 
     private fun validateFields() {
         hideKeyboard()
-        val phoneNumber = phoneNumberEditText.rawText
+        val phoneNumber = "8" + phoneNumberEditText.rawText
         val password = passwordEdtText.text
         when {
             phoneNumber.isNullOrBlank() || password.isNullOrBlank() -> {

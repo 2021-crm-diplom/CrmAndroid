@@ -41,7 +41,6 @@ class ProfileFragment : BaseFragment() {
     private lateinit var lastNameEditText: ProfileEditTextWidget
     private lateinit var firstNameEditText: ProfileEditTextWidget
     private lateinit var phoneEditText: ProfileEditTextWidget
-    private lateinit var buttonSave: Button
     private lateinit var buttonSignOut: Button
 
     private var delegate: Delegate? = null
@@ -70,7 +69,6 @@ class ProfileFragment : BaseFragment() {
         lastNameEditText = view.findViewById(R.id.edit_text_lastname)
         firstNameEditText = view.findViewById(R.id.edit_text_first_name)
         phoneEditText = view.findViewById(R.id.edit_text_phone)
-        buttonSave = view.findViewById(R.id.button_save)
         buttonSignOut = view.findViewById(R.id.button_signout)
         initTradesWidget()
         initTasksWidget()
@@ -149,9 +147,6 @@ class ProfileFragment : BaseFragment() {
         initEmployeesButton()
         initClientsButton()
         initReportsButton()
-        buttonSave.setOnClickListener {
-            saveAndUpdate()
-        }
         buttonSignOut.setOnClickListener {
             signOut()
         }
@@ -199,28 +194,6 @@ class ProfileFragment : BaseFragment() {
             if(it.deadline.before(Date())) count ++
         }
         return count
-    }
-
-    private fun saveAndUpdate() {
-        if(isFieldsValid()) {
-            //TODO: Save to Firebase
-            AppPreferences.lastName = lastNameEditText.text
-            AppPreferences.firstName = firstNameEditText.text
-        } else {
-            return
-        }
-    }
-
-    private fun isFieldsValid(): Boolean {
-        return when {
-            lastNameEditText.text.isNullOrBlank() || firstNameEditText.text.isNullOrBlank() -> {
-                showSnackbar(requireView(), R.string.profile_empty_fields)
-                false
-            } else -> {
-                showSnackbar(requireView(), R.string.profile_fields_updated)
-                true
-            }
-        }
     }
 
     private fun signOut() {

@@ -16,7 +16,7 @@
     <string name="startup_change_password_alert_title">Добро пожаловать!</string>
     <string name="startup_change_password_alert_msg">Для продолжения, вам необходимо сменить пароль</string>
     <string name="startup_change_password_success_title">Пароль изменен</string>
-    <string name="startup_change_password_success_msg">Используйте новый пароль для входа. Вы можете в любой момент изменить свой пароль в настройка</string>
+    <string name="startup_change_password_success_msg">Используйте новый пароль для входа.</string>
 
     <string name="startup_error_empty_field">Номер или пароль не должны быть пустыми!</string>
     <string name="startup_error_password_length">Пароль не может быть короче 8 символов!</string>

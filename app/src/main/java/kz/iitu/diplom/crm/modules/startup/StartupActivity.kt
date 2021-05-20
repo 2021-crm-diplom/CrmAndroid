@@ -114,6 +114,7 @@ class StartupActivity : BaseActivity(), WelcomeFragment.Delegate, SignInFragment
             getString(R.string.startup_change_password_success_msg))
             .setPositiveButton(getString(R.string.OK)) { goToMain() }
             .onDismiss { goToMain() }
+            .show()
         AppPreferences.isLogged = true
     }
 

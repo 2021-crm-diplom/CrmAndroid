@@ -89,7 +89,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     }
 
     private fun finishGracefully() {
-        AlertPopup(this, getString(R.string.finish_app_title), getString(R.string.finish_app_message))
+        AlertPopup(this, getString(R.string.finish_app_title), null)
             .setPositiveButton(getString(R.string.yes)) {
                 super.onBackPressed()
             }
@@ -210,6 +210,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
     override fun loadAllTrades(callback: QuerySnapshotCallback) {
         firestoreDb.collection(TRADES)
+            .whereEqualTo("employee", AppPreferences.phone)
             .get()
             .onSuccess(this) { result ->
                 callback.onSuccess(result)
@@ -223,6 +224,7 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
     override fun loadTradesByStatus(status: TradeStatus, callback: QuerySnapshotCallback) {
         firestoreDb.collection(TRADES)
             .whereEqualTo("status", status.title)
+            .whereEqualTo("employee", AppPreferences.phone)
             .get()
             .onSuccess(this) { result ->
                 callback.onSuccess(result)
@@ -291,11 +293,20 @@ abstract class NavigationActivity(@LayoutRes override val contentLayout: Int = R
 
 
     override fun loadAllTradesForProfile(callback: QuerySnapshotCallback) {
-        loadAllTrades(callback)
+        firestoreDb.collection(TRADES)
+            .whereEqualTo("employee", AppPreferences.phone)
+            .get()
+            .onSuccess(this) { result ->
+                callback.onSuccess(result)
+            }
+            .onFailure(this) { e ->
+                callback.onFailure(e)
+            }
     }
 
     override fun loadAllTasks(callback: QuerySnapshotCallback) {
         firestoreDb.collection(TASKS)
+            .whereEqualTo("employee", AppPreferences.phone)
             .get()
             .onSuccess(this) { result ->
                 callback.onSuccess(result)

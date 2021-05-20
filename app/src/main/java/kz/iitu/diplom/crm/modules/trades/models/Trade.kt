@@ -1,6 +1,7 @@
 package kz.iitu.diplom.crm.modules.trades.models
 
 import android.os.Parcelable
+import android.util.Log
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue

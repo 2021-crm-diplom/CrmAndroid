@@ -27,6 +27,7 @@ abstract class BaseTradesFragment : BaseFragment(), TradeAct {
     protected var swipeRecycler: SwipeRecycler? = null
     protected var adapter: Adapter? = null
 
+    abstract val fragmentTitle: String
     abstract fun loadTrades()
 
     override fun onAttach(context: Context) {
@@ -40,6 +41,7 @@ abstract class BaseTradesFragment : BaseFragment(), TradeAct {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.base_trades_fragment, container ,false)
+        title = fragmentTitle
         adapter = Adapter()
         swipeRecycler = view.findViewById(R.id.swipe_recycler)
         swipeRecycler?.adapter = adapter
